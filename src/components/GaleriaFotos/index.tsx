@@ -50,11 +50,11 @@ const GaleriaFotos: React.FC<GaleriaProps> = ({itens} : GaleriaProps) => {
                       </p>
                     </div>
                   )}
-                  <div className={item ? item.style : styles.embla__slide__number}>
+                  <div className={item.style}>
                     <Image                   
                       width={800}
                       height={600}           
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw" 
+                      sizes="(max-width: 480px) 100vw, (max-width: 768px) 90vw, (max-width: 1200px) 50vw, 40vw" 
                       alt={`Imagem ${i + 1}`} 
                       src={item.imagem}
                       style={{
@@ -62,9 +62,12 @@ const GaleriaFotos: React.FC<GaleriaProps> = ({itens} : GaleriaProps) => {
                         height: 'auto',
                         maxHeight: '600px',
                         objectFit: 'cover',
-                        borderRadius: '8px'
+                        borderRadius: '8px',
+                        margin: '1px',
                       }}
                       priority={i === 0}
+                      placeholder="blur"
+                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                     />
                   </div>
                 </div>

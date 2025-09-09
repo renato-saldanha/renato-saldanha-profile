@@ -28,16 +28,18 @@
 
 .containerPainel {
   display: flex;  
+  flex: 6;
   flex-direction: row;
   gap: 40px;
   align-items: center;
-  min-height: 450px;
+  min-height: 250px;
   max-width: 1000px;
   margin: 0 auto;
   justify-content: center;
 }
 
 .embla__slide__number {
+  flex: 1;
   box-shadow: inset 0 0 0 0.2rem var(--blue-400);
   border-radius: 1.8rem;
   font-size: 4rem;
@@ -143,7 +145,26 @@
   height: auto;
   max-height: 400px;
   width: 100%;
-  aspect-ratio: 4/3;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Tablet e dispositivos médios */
+@media screen and (max-width: 1024px) {
+  .embla {
+    max-width: 100%;
+    margin: 0 10px;
+  }
+  
+  .containerPainel {
+    gap: 30px;
+    min-height: 300px;
+  }
+  
+  .containerImg1 img,
+  .containerImg2 img {
+    max-height: 350px;
+    object-fit: cover;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -153,6 +174,7 @@
 
   .embla {
     display: block;
+    margin: 0 5px;
   }
 
   .embla__controls {
@@ -179,11 +201,12 @@
     flex-direction: column !important;
     gap: 15px;
     min-height: auto;
+    padding: 0 10px;
   }
 
   .containerSobre {
     order: 2;
-    padding: 0 10px;
+    padding: 0 5px;
     margin: 0;
     display: flex;
     align-items: flex-start;
@@ -208,6 +231,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    max-width: 100%;
   }
 
   .containerImg1 img,
@@ -221,6 +245,11 @@
 }
 
 @media screen and (max-width: 480px) {
+  .embla {
+    margin: 0;
+    padding: 0;
+  }
+  
   .embla__controls {
     margin: 0.6rem 0;
   }
@@ -240,15 +269,67 @@
     height: 1rem;
   }
 
+  .containerPainel {
+    padding: 0 5px;
+    gap: 10px;
+  }
+
+  .containerSobre {
+    padding: 0;
+  }
+
   .containerSobre > * {
     font-size: 11px;
     line-height: 1.3;
   }
   
+  .containerImg1,
+  .containerImg2 {
+    padding: 0;
+    margin: 0;
+  }
+  
   .containerImg1 img,
   .containerImg2 img {
     max-height: 180px;
-    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+}
+
+/* Dispositivos muito pequenos (320px) */
+@media screen and (max-width: 320px) {
+  .embla {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .containerPainel {
+    padding: 0 2px;
+    gap: 8px;
+  }
+
+  .containerSobre > * {
+    font-size: 10px;
+    line-height: 1.2;
+  }
+  
+  .containerImg1 img,
+  .containerImg2 img {
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  
+  .embla__dot {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  .embla__dot:after,
+  .embla__dot__selected:after {
+    width: 0.9rem;
+    height: 0.9rem;
   }
 }
 
