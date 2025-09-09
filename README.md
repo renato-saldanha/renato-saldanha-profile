@@ -1,17 +1,5 @@
 # 🚀 Portfólio - Renato Saldanha
 
-<div align="center">
-  <img src="public/assets/profile.png" alt="Renato Saldanha" width="200" style="border-radius: 50%;">
-  
-  ### Desenvolvedor Full Stack | Delphi | React | React Native
-  
-  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/renato-saldanha)
-  [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/renato-saldanha)
-  [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:contato@renatosaldanha.com)
-</div>
-
----
-
 ## 📋 Sobre o Projeto
 
 Este é meu portfólio pessoal desenvolvido com **Next.js** e **TypeScript**, apresentando minha jornada profissional, projetos e habilidades técnicas. O site é responsivo, moderno e otimizado para performance.
@@ -118,58 +106,10 @@ src/
 └── lib/                # Bibliotecas e configurações
 ```
 
----
-
-## 👨‍💻 Sobre Mim
-
-### Formação
-- **Análise e Desenvolvimento de Sistemas** (2018)
-- **Natural de Cuiabá-MT**
-
-### Experiência Profissional
-- **Desenvolvedor Full Stack** desde 2015
-- **Especialista em Delphi** - Desenvolvimento desktop
-- **React & React Native** - Desenvolvimento web e mobile
-- **Manutenção de Computadores** - Experiência desde 2017
-
-### Habilidades Técnicas
-
-#### 🖥️ Desktop
-- **Delphi** - Desenvolvimento de aplicações desktop
-- **Banco de Dados** - SQL Server, PostgreSQL
-
-#### 🌐 Web
-- **React.js** - Desenvolvimento frontend
-- **Next.js** - Framework React para produção
-- **TypeScript** - Tipagem estática
-- **Tailwind CSS** - Estilização
-
-#### 📱 Mobile
-- **React Native** - Desenvolvimento mobile
-- **Aplicações híbridas**
-
 #### 🛠️ Ferramentas
 - **Git** - Controle de versão
 - **VS Code** - Editor de código
 - **Figma** - Design de interfaces
-
----
-
-## 📂 Projetos em Destaque
-
-### 🏭 Sistema Sisflup
-**Sistema de Gerenciamento de Fluxo de Produção**
-
-- **Tecnologias**: Delphi, SQL Server
-- **Funcionalidades**:
-  - Cadastro de clientes e orçamentos
-  - Gerenciamento de fluxo de produção
-  - Controle de etapas configuráveis
-  - Relatórios e dashboards
-
-![Sistema Sisflup](public/assets/Sisflup/sis1.png)
-
----
 
 ## 📞 Contato
 
