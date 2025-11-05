@@ -7,6 +7,7 @@
   --slide-height: auto;
   --slide-spacing: 1rem;
   --slide-size: 100%;
+  overflow: visible;
 }
 
 .embla__viewport {
@@ -61,7 +62,9 @@
   justify-content: space-between;
   pointer-events: none;
   z-index: 10;
-  padding: 0 1rem;
+  padding: 0;
+  left: 0;
+  right: 0;
 }
 
 .embla__button {
@@ -78,6 +81,15 @@
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(8px);
+  position: absolute;
+}
+
+.embla__button:first-child {
+  left: -70px;
+}
+
+.embla__button:last-child {
+  right: -70px;
 }
 
 .embla__button:hover:not(:disabled) {
@@ -220,6 +232,17 @@
   aspect-ratio: 4/3;
 }
 
+/* Tablets */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  .embla__button:first-child {
+    left: -50px;
+  }
+
+  .embla__button:last-child {
+    right: -50px;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .container {
     margin: 1rem 0.5rem 0 0.5rem;
@@ -230,12 +253,21 @@
   }
 
   .embla__navigation {
-    padding: 0 0.5rem;
+    padding: 0;
   }
 
   .embla__button {
     width: 40px;
     height: 40px;
+    position: absolute;
+  }
+
+  .embla__button:first-child {
+    left: 10px;
+  }
+
+  .embla__button:last-child {
+    right: 10px;
   }
 
   .embla__button__icon {
@@ -316,12 +348,21 @@
 
 @media screen and (max-width: 480px) {
   .embla__navigation {
-    padding: 0 0.25rem;
+    padding: 0;
   }
 
   .embla__button {
     width: 36px;
     height: 36px;
+    position: absolute;
+  }
+
+  .embla__button:first-child {
+    left: 5px;
+  }
+
+  .embla__button:last-child {
+    right: 5px;
   }
 
   .embla__button__icon {
