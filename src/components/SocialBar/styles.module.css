@@ -1,10 +1,14 @@
 .containerSocialBar {
   position: fixed;
   top: 260px;
-  margin-left: 15px;
+  margin-left: 10px;
   padding: 0 3px;
   border-radius: 8px;
   background-color: var(--blue-100);
+}
+
+.imgGitHub {
+  background-color: black;
 }
 
 .imgInstagram {
@@ -17,7 +21,8 @@
 }
 
 .imgInstagram,
-.imgLinkedin {
+.imgLinkedin,
+.imgGitHub {
   justify-content: center;
   display: flex;
   border-radius: 8px;
@@ -25,14 +30,16 @@
 }
 
 .imgInstagram:hover,
-.imgLinkedin:hover {
+.imgLinkedin:hover,
+.imgGitHub:hover {
   transition: all 0.2s;
   scale: 1.2;
   opacity: 0.8;
 }
 
 .imgInstagram a,
-.imgLinkedin a {
+.imgLinkedin a,
+.imgGitHub a {
   color: var(--white);
 }
 
@@ -44,7 +51,8 @@
   }
 
   .imgInstagram,
-  .imgLinkedin {
+  .imgLinkedin,
+  .imgGitHub {
     margin: 2px 1px;
   }
 }

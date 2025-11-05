@@ -1,4 +1,4 @@
-import { Instagram, Linkedin } from 'lucide-react';
+import { Github, Instagram, Linkedin } from 'lucide-react';
 import styles from './styles.module.css'
 import Link from 'next/link';
 
@@ -36,6 +36,19 @@ export default function SocialBar() {
         }
         }>
         <Link target="_blank" href='https://www.instagram.com/renato.saldanha.1/'><Instagram size={32} /></Link>
+      </motion.div>
+
+      <motion.div
+        className={styles.imgGitHub}
+        initial={{ scale: .4, decelerate: 3 }}
+        animate={animate}
+        transition={{
+          repeat: 999999999,
+          repeatType: "loop",
+          repeatDelay: 7
+        }
+        }>
+        <Link target="_blank" href='https://github.com/renato-saldanha/'><Github size={32} /></Link>
       </motion.div>
 
     </div>

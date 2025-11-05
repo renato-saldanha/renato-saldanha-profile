@@ -1,4 +1,5 @@
 .embla {
+  position: relative;
   flex-direction: column;
   max-width: 1000px;
   margin: 0 auto;
@@ -17,6 +18,7 @@
   display: flex;
   touch-action: pan-y pinch-zoom;
   margin-left: calc(var(--slide-spacing) * -1);
+  /* Remover transição CSS - o Embla controla isso nativamente */
 }
 
 .embla__slide {
@@ -24,22 +26,21 @@
   flex: 0 0 var(--slide-size);
   min-width: 0;
   padding-left: var(--slide-spacing);
+  /* Remover transições pesadas */
 }
 
 .containerPainel {
   display: flex;  
-  flex: 6;
   flex-direction: row;
   gap: 40px;
   align-items: center;
-  min-height: 250px;
+  min-height: 450px;
   max-width: 1000px;
   margin: 0 auto;
   justify-content: center;
 }
 
 .embla__slide__number {
-  flex: 1;
   box-shadow: inset 0 0 0 0.2rem var(--blue-400);
   border-radius: 1.8rem;
   font-size: 4rem;
@@ -51,11 +52,82 @@
   user-select: none;
 }
 
+.embla__navigation {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 10;
+  padding: 0 1rem;
+}
+
+.embla__button {
+  pointer-events: all;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 2px solid var(--blue-200);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
+}
+
+.embla__button:hover:not(:disabled) {
+  background-color: var(--blue-200);
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.embla__button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.embla__button__icon {
+  width: 24px;
+  height: 24px;
+  color: var(--blue-400);
+  transition: color 0.3s ease;
+}
+
+.embla__button:hover:not(:disabled) .embla__button__icon {
+  color: var(--white);
+}
+
 .embla__controls {
   display: flex !important;
+  flex-direction: column;
   justify-content: center !important;
   align-items: center !important;
   width: 100% !important;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.embla__indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.embla__counter {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--blue-400);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--blue-200);
 }
 
 .embla__dots {
@@ -145,26 +217,7 @@
   height: auto;
   max-height: 400px;
   width: 100%;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-/* Tablet e dispositivos médios */
-@media screen and (max-width: 1024px) {
-  .embla {
-    max-width: 100%;
-    margin: 0 10px;
-  }
-  
-  .containerPainel {
-    gap: 30px;
-    min-height: 300px;
-  }
-  
-  .containerImg1 img,
-  .containerImg2 img {
-    max-height: 350px;
-    object-fit: cover;
-  }
+  aspect-ratio: 4/3;
 }
 
 @media screen and (max-width: 768px) {
@@ -174,11 +227,30 @@
 
   .embla {
     display: block;
-    margin: 0 5px;
+  }
+
+  .embla__navigation {
+    padding: 0 0.5rem;
+  }
+
+  .embla__button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .embla__button__icon {
+    width: 20px;
+    height: 20px;
   }
 
   .embla__controls {
     margin: 0.8rem 0;
+    gap: 0.75rem;
+  }
+
+  .embla__counter {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
   }
 
   .embla__dots {
@@ -201,12 +273,11 @@
     flex-direction: column !important;
     gap: 15px;
     min-height: auto;
-    padding: 0 10px;
   }
 
   .containerSobre {
     order: 2;
-    padding: 0 5px;
+    padding: 0 10px;
     margin: 0;
     display: flex;
     align-items: flex-start;
@@ -231,7 +302,6 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    max-width: 100%;
   }
 
   .containerImg1 img,
@@ -245,13 +315,28 @@
 }
 
 @media screen and (max-width: 480px) {
-  .embla {
-    margin: 0;
-    padding: 0;
+  .embla__navigation {
+    padding: 0 0.25rem;
   }
-  
+
+  .embla__button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .embla__button__icon {
+    width: 18px;
+    height: 18px;
+  }
+
   .embla__controls {
     margin: 0.6rem 0;
+    gap: 0.5rem;
+  }
+
+  .embla__counter {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
   }
 
   .embla__dots {
@@ -269,67 +354,15 @@
     height: 1rem;
   }
 
-  .containerPainel {
-    padding: 0 5px;
-    gap: 10px;
-  }
-
-  .containerSobre {
-    padding: 0;
-  }
-
   .containerSobre > * {
     font-size: 11px;
     line-height: 1.3;
   }
   
-  .containerImg1,
-  .containerImg2 {
-    padding: 0;
-    margin: 0;
-  }
-  
   .containerImg1 img,
   .containerImg2 img {
     max-height: 180px;
-    object-fit: cover;
-    border-radius: 6px;
-  }
-}
-
-/* Dispositivos muito pequenos (320px) */
-@media screen and (max-width: 320px) {
-  .embla {
-    margin: 0;
-    padding: 0;
-  }
-  
-  .containerPainel {
-    padding: 0 2px;
-    gap: 8px;
-  }
-
-  .containerSobre > * {
-    font-size: 10px;
-    line-height: 1.2;
-  }
-  
-  .containerImg1 img,
-  .containerImg2 img {
-    max-height: 150px;
-    object-fit: cover;
-    border-radius: 4px;
-  }
-  
-  .embla__dot {
-    width: 1.8rem;
-    height: 1.8rem;
-  }
-
-  .embla__dot:after,
-  .embla__dot__selected:after {
-    width: 0.9rem;
-    height: 0.9rem;
+    aspect-ratio: 4/3;
   }
 }
 

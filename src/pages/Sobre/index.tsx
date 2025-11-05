@@ -4,6 +4,14 @@ import Img2 from '../../../public/assets/parceira.jpeg'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
+import { Card, CardContent } from "@/components/ui/card"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
+} from "@/components/ui/carousel"
 import GaleriaFotos from '@/components/GaleriaFotos'
 import { GaleriaItem, GaleriaProps } from '@/types'
 

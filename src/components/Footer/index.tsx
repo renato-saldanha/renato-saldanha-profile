@@ -1,4 +1,4 @@
-import { Instagram, Linkedin } from 'lucide-react'
+import { Github, Instagram, Linkedin } from 'lucide-react'
 import styles from './styles.module.css'
 import Link from 'next/link'
 
@@ -11,8 +11,9 @@ export default function Footer() {
           <p>Desenvolvendo soluções multiplataforma que facilitam a viver melhor.</p>
         </div>
         <div className={styles.mediaSocial}>
-        <Link target="_blank" href='https://www.linkedin.com/in/renato-saldanha-a318067b/'><Linkedin size={32} /></Link>
-        <Link target="_blank" href='https://www.instagram.com/renato.saldanha.1/'><Instagram size={32} /></Link>
+          <Link target="_blank" href='https://www.linkedin.com/in/renato-saldanha-a318067b/'><Linkedin size={32} /></Link>
+          <Link target="_blank" href='https://www.instagram.com/renato.saldanha.1/'><Instagram size={32} /></Link>
+          <Link target="_blank" href='https://github.com/renato-saldanha/'><Github size={32} /></Link>
         </div>
       </div>
       <hr />

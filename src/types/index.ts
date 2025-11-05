@@ -10,3 +10,10 @@ export interface GaleriaItem {
   imagem: StaticImageData | string,
   style?: string
 }
+
+export interface Portifolio {
+  id: string
+  titulo: string
+  descricao: string
+  galeria: GaleriaItem[]
+}

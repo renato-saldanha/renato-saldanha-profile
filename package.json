@@ -1,6 +1,6 @@
 {
   "name": "portifolio",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -29,7 +29,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@types/node": "^24",
+    "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.17",
@@ -45,9 +45,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "engines": {
-    "node": ">=22.0.0",
-    "npm": ">=10.0.0"
-  }
+  ]
 }
