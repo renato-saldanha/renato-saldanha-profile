@@ -15,16 +15,17 @@ const portifolios: Portifolio[] = [
       { imagem: `/assets/crm_leads/crm_leads2.png` },
     ]
   },
-  // Adicione mais portfólios aqui conforme necessário
-  // {
-  //   id: 'outro-projeto',
-  //   titulo: 'Outro Projeto',
-  //   descricao: 'Descrição do outro projeto',
-  //   galeria: [
-  //     { imagem: `/assets/outro-projeto/img1.png` },
-  //     { imagem: `/assets/outro-projeto/img2.png` },
-  //   ]
-  // }
+  {
+    id: 'Course App',
+    titulo: 'Course App',
+    descricao: 'Portal de cursos online',
+    galeria: [
+      { imagem: `/assets/course_app/front_course_login.png` },
+      { imagem: `/assets/course_app/front_course_f2a.png` },
+      { imagem: `/assets/course_app/front_course_admin.png` },
+      { imagem: `/assets/course_app/front_course_aluno.png` },
+    ]
+  }
 ]
 
 export default function Portifolio() {
