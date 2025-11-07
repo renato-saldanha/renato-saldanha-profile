@@ -137,8 +137,7 @@ const GaleriaFotos: React.FC<GaleriaProps> = ({ itens }: GaleriaProps) => {
                         objectFit: 'cover',
                         borderRadius: '8px'
                       }}
-                      priority={i === 0}
-                      loading={i === 0 ? 'eager' : 'lazy'}
+                      priority
                       quality={75}
                     />
                   </div>

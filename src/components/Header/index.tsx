@@ -18,6 +18,7 @@ export default function Header() {
         <Image
           alt='profile'
           src={imgProfile}
+          priority
           onClick={() => toHome()} />
         <span onClick={() => toHome()}> Renato Saldanha </span>
       </div>
