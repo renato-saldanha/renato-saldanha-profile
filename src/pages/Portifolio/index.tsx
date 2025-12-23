@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X } from 'lucide-react'
-import styles from './styles.module.css'
+import { X, ExternalLink, Github } from 'lucide-react'
+import Image from 'next/image'
 import type { Portifolio } from '@/types'
 import GaleriaFotos from '@/components/GaleriaFotos'
+import { Button } from '@/components/ui/button'
 
 const portifolios: Portifolio[] = [
   {
@@ -62,29 +63,83 @@ export default function Portifolio() {
 
   const fecharModal = () => {
     setModalAberto(false)
-    // Delay para permitir animação de saída
     setTimeout(() => {
       setPortifolioSelecionado(null)
     }, 300)
   }
 
   return (
-    <div className={styles.container}>
-      {/* Lista de Portfólios */}
-      <div className={styles.portifoliosLista}>
-        <h2 className={styles.tituloLista}>Meus Portfólios</h2>
-        <div className={styles.portifoliosGrid}>
-          {portifolios.map((portifolio) => (
-            <button
-              key={portifolio.id}
-              className={styles.portifolioCard}
-              onClick={() => abrirModal(portifolio)}
-              type="button"
-            >
-              <h3 className={styles.portifolioCardTitulo}>{portifolio.titulo}</h3>
-              <p className={styles.portifolioCardDescricao}>{portifolio.descricao}</p>
-            </button>
-          ))}
+    <section className="py-32 relative min-h-screen">
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <span className="gradient-text">Projetos em Destaque</span>
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Soluções desenvolvidas com foco em qualidade e inovação.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-8">
+          {portifolios.map((portifolio, index) => {
+            const primeiraImagem = portifolio.galeria && portifolio.galeria.length > 0 
+              ? portifolio.galeria[0].imagem 
+              : null;
+            
+            return (
+              <motion.div
+                key={portifolio.id}
+                className="group relative flex flex-col"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <div className="glass-card overflow-hidden hover:border-primary/50 transition-all duration-500 flex flex-col h-full">
+                  {/* Image */}
+                  {primeiraImagem && (
+                    <div className="relative h-48 w-full overflow-hidden flex-shrink-0">
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 mix-blend-overlay z-10" />
+                      <Image
+                        src={primeiraImagem}
+                        alt={portifolio.titulo}
+                        fill
+                        className="object-cover transform group-hover:scale-110 transition-transform duration-700"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
+                        loading={index === 0 ? "eager" : "lazy"}
+                        priority={index === 0}
+                      />
+                      <div className="absolute top-4 right-4 z-20">
+                        <span className="px-3 py-1 text-xs font-mono bg-background/80 backdrop-blur-sm border border-primary/50 rounded-full text-primary">
+                          {portifolio.galeria.length} imagens
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Content */}
+                  <div className="p-6 flex flex-col flex-grow">
+                    <h3 className="text-xl font-semibold mb-2 text-foreground group-hover:text-primary transition-colors min-h-[28px]">
+                      {portifolio.titulo}
+                    </h3>
+                    <p className="text-muted-foreground text-sm mb-4 flex-grow min-h-[60px]">
+                      {portifolio.descricao}
+                    </p>
+
+                    <div className="flex gap-3 mt-auto">
+                      <Button 
+                        variant="cyber" 
+                        size="sm" 
+                        className="flex-1"
+                        onClick={() => abrirModal(portifolio)}
+                      >
+                        Ver Detalhes
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 
@@ -92,47 +147,47 @@ export default function Portifolio() {
       <AnimatePresence>
         {modalAberto && portifolioSelecionado && (
           <motion.div
-            className={styles.modalOverlay}
+            className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-background/95"
             onClick={fecharModal}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
           >
             <motion.div
-              className={styles.modalContent}
+              className="glass-card w-[95vw] sm:w-[90vw] max-w-5xl h-[90vh] sm:h-[85vh] max-h-[90vh] sm:max-h-[85vh] overflow-hidden flex flex-col m-4 sm:m-0"
               onClick={(e) => e.stopPropagation()}
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.2 }}
             >
               {/* Header do Modal */}
-              <div className={styles.modalHeader}>
-                <h2 className={styles.modalTitulo}>{portifolioSelecionado.titulo}</h2>
+              <div className="flex justify-between items-center p-4 sm:p-6 border-b border-border flex-shrink-0">
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground">{portifolioSelecionado.titulo}</h2>
                 <button
-                  className={styles.modalCloseButton}
+                  className="w-10 h-10 rounded-lg bg-secondary/50 border border-border flex items-center justify-center text-foreground hover:bg-secondary hover:border-primary/50 transition-all"
                   onClick={fecharModal}
                   aria-label="Fechar modal"
                   type="button"
                 >
-                  <X className={styles.modalCloseIcon} />
+                  <X className="w-5 h-5" />
                 </button>
               </div>
 
               {/* Galeria no Modal */}
-              <div className={styles.modalGaleria}>
+              <div className="flex-1 min-h-0 overflow-y-auto overflow-x-visible p-4 sm:p-6 modal-gallery-container" style={{ contain: 'layout style paint' }}>
                 <GaleriaFotos itens={portifolioSelecionado.galeria} />
               </div>
 
               {/* Descrição no Modal */}
-              <div className={styles.modalDescricao}>
-                <p>{portifolioSelecionado.descricao}</p>
+              <div className="p-4 sm:p-6 border-t border-border flex-shrink-0">
+                <p className="text-muted-foreground text-center text-sm sm:text-base">{portifolioSelecionado.descricao}</p>
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </section>
   )
 }

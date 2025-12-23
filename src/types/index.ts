@@ -3,6 +3,7 @@ import { StaticImageData } from "next/image"
 export interface GaleriaProps {
   itens: GaleriaItem[]
   texto?: JSX.Element
+  variant?: 'default' | 'sobre'
 }
 
 export interface GaleriaItem {
