@@ -6,7 +6,7 @@ export default function App() {
     <>
       <Head>
         <title>Renato Saldanha - Engenheiro de IA & Desenvolvedor Full Stack</title>
-        <meta name="description" content="Portfólio de Renato Saldanha - Desenvolvedor Full Stack especializado em Engenharia de IA, Deep Learning e soluções multiplataforma." />
+        <meta name="description" content="Portfólio de Renato Saldanha - Desenvolvedor Full Stack especializado em Engenharia de IA e soluções multiplataforma." />
       </Head>
       <Home />
     </>
