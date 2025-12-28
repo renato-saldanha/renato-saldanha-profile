@@ -3,8 +3,10 @@ import { motion } from 'framer-motion'
 import { BadgeCheck, AlertCircle, Mail, Send } from 'lucide-react'
 import { useEmailJS } from '@/hooks/useEmailJS'
 import { Button } from '@/components/ui/button'
+import SEO from '@/components/SEO'
 
 export default function Contato() {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://renatosaldanha.dev';
   const [nome, setNome] = useState("")
   const [email, setEmail] = useState("")
   const [mensagem, setMensagem] = useState("")
@@ -37,7 +39,14 @@ export default function Contato() {
   }
 
   return (
-    <section className="py-32 relative min-h-screen">
+    <>
+      <SEO
+        title="Contato"
+        description="Entre em contato com Renato Saldanha para colaborações, projetos ou consultoria em desenvolvimento Full Stack e Engenharia de IA. Vamos transformar ideias em realidade."
+        keywords="Contato, Consultoria, Projetos, Desenvolvimento de Software, Freelancer, Desenvolvedor Full Stack, Engenheiro de IA"
+        url={`${baseUrl}/Contato`}
+      />
+      <section className="py-32 relative min-h-screen">
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
@@ -154,5 +163,6 @@ export default function Contato() {
         </div>
       </div>
     </section>
+    </>
   )
 }

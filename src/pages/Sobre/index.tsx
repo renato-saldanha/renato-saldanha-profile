@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import GaleriaFotos from '@/components/GaleriaFotos'
 import { GaleriaItem } from '@/types'
 import { Button } from '@/components/ui/button'
+import SEO from '@/components/SEO'
 
 const galeriaItens: GaleriaItem[] = [
   {
@@ -22,8 +23,17 @@ const galeriaItens: GaleriaItem[] = [
 ]
 
 export default function Sobre() {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://renatosaldanha.dev';
+  
   return (
-    <section className="pt-8 pb-6 md:pt-10 md:pb-8 relative">
+    <>
+      <SEO
+        title="Sobre Mim"
+        description="Conheça Renato Saldanha - Desenvolvedor Full Stack e Engenheiro de IA. Natural de Cuiabá-MT, com experiência em Delphi, React, React Native e soluções de IA. Formado em Análise e Desenvolvimento de Sistemas."
+        keywords="Sobre Renato Saldanha, Desenvolvedor Cuiabá, Programador Mato Grosso, Experiência desenvolvimento, Delphi, React, React Native, Engenheiro de IA"
+        url={`${baseUrl}/Sobre`}
+      />
+      <section className="pt-8 pb-6 md:pt-10 md:pb-8 relative">
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-4 md:mb-6">
           <h2 className="text-4xl md:text-5xl font-bold mb-2">
@@ -45,5 +55,6 @@ export default function Sobre() {
         </motion.div>
       </div>
     </section>
+    </>
   )
 }

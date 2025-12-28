@@ -5,6 +5,7 @@ import Image from 'next/image'
 import type { Portifolio } from '@/types'
 import GaleriaFotos from '@/components/GaleriaFotos'
 import { Button } from '@/components/ui/button'
+import SEO from '@/components/SEO'
 
 const portifolios: Portifolio[] = [
   {
@@ -30,6 +31,7 @@ const portifolios: Portifolio[] = [
 ]
 
 export default function Portifolio() {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://renatosaldanha.dev';
   const [modalAberto, setModalAberto] = useState(false)
   const [portifolioSelecionado, setPortifolioSelecionado] = useState<Portifolio | null>(null)
 
@@ -69,7 +71,14 @@ export default function Portifolio() {
   }
 
   return (
-    <section className="py-32 relative min-h-screen">
+    <>
+      <SEO
+        title="Portfólio - Projetos em Destaque"
+        description="Conheça os projetos desenvolvidos por Renato Saldanha: CRM Leads, Course App e outras soluções em IA e desenvolvimento Full Stack. Soluções desenvolvidas com foco em qualidade e inovação."
+        keywords="Portfólio, Projetos, CRM, Course App, Desenvolvimento de Software, Projetos de IA, React, Next.js, Delphi, React Native"
+        url={`${baseUrl}/Portifolio`}
+      />
+      <section className="py-32 relative min-h-screen">
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
@@ -101,7 +110,7 @@ export default function Portifolio() {
                       <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 mix-blend-overlay z-10" />
                       <Image
                         src={primeiraImagem}
-                        alt={portifolio.titulo}
+                        alt={`Screenshot do projeto ${portifolio.titulo} - ${portifolio.descricao}`}
                         fill
                         className="object-cover transform group-hover:scale-110 transition-transform duration-700"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
@@ -189,5 +198,6 @@ export default function Portifolio() {
         )}
       </AnimatePresence>
     </section>
+    </>
   )
 }
