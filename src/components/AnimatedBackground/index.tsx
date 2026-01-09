@@ -34,8 +34,13 @@ export default function AnimatedBackground({
   showFloatingElements = false
 }: AnimatedBackgroundProps) {
   const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number>();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     const detectMobile = () => {
@@ -76,6 +81,8 @@ export default function AnimatedBackground({
     }
 
     if (isMobile) return;
+
+    if (!isClient) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -285,7 +292,7 @@ export default function AnimatedBackground({
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [connectionDistance, effectiveNodeCount, isMobile]);
+  }, [connectionDistance, effectiveNodeCount, isMobile, isClient]);
 
   if (isMobile) {
     return (
@@ -316,12 +323,12 @@ export default function AnimatedBackground({
       {animatedDots.map((dot) => (
         <div
           key={`dot-${dot.id}`}
-          className="absolute animated-dot"
+          className={`absolute ${isClient ? 'animated-dot' : ''}`}
           style={{
             left: `${dot.left}%`,
             top: `${dot.top}%`,
-            animationDelay: `${dot.delay}s`,
-            animationDuration: `${dot.duration}s`,
+            animationDelay: isClient ? `${dot.delay}s` : undefined,
+            animationDuration: isClient ? `${dot.duration}s` : undefined,
             zIndex: 1
           }}
         >
