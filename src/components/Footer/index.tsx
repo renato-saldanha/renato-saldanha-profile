@@ -2,6 +2,8 @@ import { Mail } from 'lucide-react'
 import SocialIcons from '@/components/SocialIcons'
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="relative py-12">
       <div className="container mx-auto px-6 relative z-10">
@@ -29,24 +31,27 @@ export default function Footer() {
               </div>
 
               {/* Email destacado */}
-              <div className="flex justify-center">
-                <a 
-                  href="mailto:ranalisesaldanha@gmail.com"
-                  className="email-highlight group"
-                >
-                  <Mail className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
-                  <span className="text-base md:text-lg font-semibold gradient-text">
-                    ranalisesaldanha@gmail.com
-                  </span>
-                </a>
-              </div>
+              <address className="not-italic">
+                <div className="flex justify-center">
+                  <a 
+                    href="mailto:ranalisesaldanha@gmail.com"
+                    className="email-highlight group"
+                    aria-label="Enviar email para ranalisesaldanha@gmail.com"
+                  >
+                    <Mail className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" aria-hidden="true" />
+                    <span className="text-base md:text-lg font-semibold gradient-text">
+                      ranalisesaldanha@gmail.com
+                    </span>
+                  </a>
+                </div>
+              </address>
             </div>
           </div>
 
           {/* Footer Copyright */}
           <div className="text-center pt-6 border-t border-border/50">
             <p className="text-sm text-muted-foreground font-mono">
-              © 2024 Renato Saldanha. <span className="text-primary">Todos os direitos reservados</span>
+              © {currentYear} Renato Saldanha. <span className="text-primary">Todos os direitos reservados</span>
             </p>
           </div>
         </div>

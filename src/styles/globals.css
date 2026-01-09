@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-
 @layer base {
   :root {
     --background: 222 47% 5%;
@@ -22,7 +20,7 @@
     --secondary-foreground: 210 40% 98%;
 
     --muted: 222 30% 15%;
-    --muted-foreground: 215 20% 65%;
+    --muted-foreground: 215 20% 70%;
 
     --accent: 270 100% 65%;
     --accent-foreground: 210 40% 98%;
@@ -48,6 +46,18 @@
 }
 
 @layer base {
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply ring-2 ring-primary ring-offset-2 ring-offset-background outline-none;
+  }
+
   * {
     @apply border-border;
     box-sizing: border-box;
@@ -57,7 +67,7 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-space-grotesk), sans-serif;
   }
 
   /* Cursor customizado apenas em desktop */
@@ -68,11 +78,11 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-space-grotesk), sans-serif;
   }
 
   code, pre, .font-mono {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-jetbrains-mono), monospace;
   }
 
   html,
@@ -97,6 +107,14 @@
     box-shadow: 0 8px 32px hsl(var(--background) / 0.5);
   }
 
+  .section-padding {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+
+  .section-padding-sm {
+    @apply py-8 md:py-12 lg:py-16;
+  }
+
   .glow-text {
     text-shadow: 0 0 20px hsl(var(--primary) / 0.5), 0 0 40px hsl(var(--primary) / 0.3);
   }
@@ -108,6 +126,11 @@
   .gradient-text {
     @apply bg-clip-text text-transparent;
     background-image: var(--gradient-glow);
+    /* Fallback para navegadores sem suporte ao background-clip */
+    @supports not (background-clip: text) {
+      color: hsl(var(--primary));
+      background: none;
+    }
   }
 
   .cyber-grid {
@@ -115,7 +138,7 @@
       linear-gradient(hsl(var(--border) / 0.3) 1px, transparent 1px),
       linear-gradient(90deg, hsl(var(--border) / 0.3) 1px, transparent 1px);
     background-size: 50px 50px;
-    animation: grid-move 20s linear infinite;
+    animation: grid-move 30s linear infinite;
   }
 
   .floating {
@@ -123,18 +146,18 @@
   }
 
   .pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
+    animation: pulse-glow 4s ease-in-out infinite;
   }
 
   .animated-dot {
-    animation: dot-float 8s ease-in-out infinite;
+    animation: dot-float 12s ease-in-out infinite;
   }
 
   .glow-dot {
     box-shadow: 0 0 10px hsl(var(--primary) / 0.8), 
                 0 0 20px hsl(var(--primary) / 0.6),
                 0 0 30px hsl(var(--primary) / 0.4);
-    animation: dot-pulse 2s ease-in-out infinite;
+    animation: dot-pulse 3s ease-in-out infinite;
   }
 
   .cyberpunk-border {
@@ -276,10 +299,10 @@
 
   @keyframes pulse-glow {
     0%, 100% { 
-      box-shadow: 0 0 20px hsl(var(--primary) / 0.4), 0 0 40px hsl(var(--primary) / 0.2);
+      box-shadow: 0 0 15px hsl(var(--primary) / 0.35), 0 0 30px hsl(var(--primary) / 0.18);
     }
     50% { 
-      box-shadow: 0 0 30px hsl(var(--primary) / 0.6), 0 0 60px hsl(var(--primary) / 0.3);
+      box-shadow: 0 0 22px hsl(var(--primary) / 0.5), 0 0 42px hsl(var(--primary) / 0.24);
     }
   }
 
@@ -298,15 +321,15 @@
       opacity: 0.6;
     }
     25% { 
-      transform: translate(20px, -30px) scale(1.2);
+      transform: translate(14px, -20px) scale(1.15);
       opacity: 1;
     }
     50% { 
-      transform: translate(-15px, -50px) scale(0.8);
+      transform: translate(-12px, -32px) scale(0.9);
       opacity: 0.8;
     }
     75% { 
-      transform: translate(-30px, -20px) scale(1.1);
+      transform: translate(-18px, -16px) scale(1.05);
       opacity: 0.9;
     }
   }
@@ -379,6 +402,16 @@
       background-color: hsl(var(--primary) / 0.06) !important;
       box-shadow: 0 0 10px hsl(var(--primary) / 0.2) !important;
     }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  .animate-shake {
+    animation: shake 0.3s ease-in-out;
   }
 
   .animate-fade-up {
@@ -472,6 +505,23 @@
     }
   }
 
+  /* Gallery About Variant - Position arrows in image area */
+  .gallery-about-variant .gallery-carousel-button {
+    top: 35% !important;
+  }
+
+  @media screen and (max-width: 768px) {
+    .gallery-about-variant .gallery-carousel-button {
+      top: 30% !important;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .gallery-about-variant .gallery-carousel-button {
+      top: 25% !important;
+    }
+  }
+
   /* Embla Button Styles */
   .embla__button:hover:not(:disabled) {
     background-color: hsl(var(--primary) / 0.2);
@@ -514,6 +564,19 @@
     .embla__button__icon {
       width: 24px;
       height: 24px;
+    }
+  }
+
+  /* Respeita usuários que preferem menos movimento */
+  @media (prefers-reduced-motion: reduce) {
+    .animated-dot,
+    .floating,
+    .pulse-glow,
+    .glow-dot,
+    .animate-pulse,
+    [class*="animate-"] {
+      animation: none !important;
+      transition: none !important;
     }
   }
 }

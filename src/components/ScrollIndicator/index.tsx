@@ -3,6 +3,8 @@ import { useEffect, useRef } from 'react';
 export default function ScrollIndicator() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const isMobileRef = useRef(false);
+  const positionRef = useRef({ x: 0, y: 0 });
+  const scaleRef = useRef(1);
 
   useEffect(() => {
     // Verifica se é dispositivo móvel
@@ -19,8 +21,6 @@ export default function ScrollIndicator() {
           cursorRef.current.style.display = 'none';
         }
       } else {
-        document.body.style.cursor = 'none';
-        document.documentElement.style.cursor = 'none';
         if (cursorRef.current) {
           cursorRef.current.style.display = 'block';
         }
@@ -40,11 +40,16 @@ export default function ScrollIndicator() {
     if (!cursorRef.current) return;
 
     // Atualiza posição diretamente no DOM para melhor performance
+    const applyTransform = (scale = 1) => {
+      if (!cursorRef.current || isMobileRef.current) return;
+      const { x, y } = positionRef.current;
+      cursorRef.current.style.transform = `translate(calc(${x}px - 50%), calc(${y}px - 50%)) scale(${scale})`;
+    };
+
     const updateCursorPosition = (e: MouseEvent) => {
-      if (cursorRef.current && !isMobileRef.current) {
-        cursorRef.current.style.left = `${e.clientX}px`;
-        cursorRef.current.style.top = `${e.clientY}px`;
-      }
+      if (!cursorRef.current || isMobileRef.current) return;
+      positionRef.current = { x: e.clientX, y: e.clientY };
+      applyTransform(scaleRef.current);
     };
 
     const handleMouseEnter = () => {
@@ -74,9 +79,11 @@ export default function ScrollIndicator() {
         window.getComputedStyle(target).cursor === 'pointer';
       
       if (isInteractive) {
-        cursorRef.current.style.transform = 'translate(-50%, -50%) scale(1.2)';
+        scaleRef.current = 1.2;
+        applyTransform(scaleRef.current);
       } else {
-        cursorRef.current.style.transform = 'translate(-50%, -50%) scale(1)';
+        scaleRef.current = 1;
+        applyTransform(scaleRef.current);
       }
     };
 
@@ -110,10 +117,12 @@ export default function ScrollIndicator() {
       style={{
         left: '0px',
         top: '0px',
-        transform: 'translate(-50%, -50%)',
-        willChange: 'transform',
-        transition: 'transform 0.05s linear, opacity 0.1s ease-out',
+        transform: 'translate(-50%, -50%) scale(1)',
+        willChange: 'transform, opacity',
+        transition: 'opacity 0.1s ease-out',
       }}
+      aria-hidden="true"
+      role="presentation"
     >
       <div className="w-6 h-10 border-2 border-primary/50 rounded-full flex justify-center pt-2">
         <div className="w-1 h-2 bg-primary rounded-full" />

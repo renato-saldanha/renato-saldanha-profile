@@ -47,6 +47,7 @@ export default function SocialIcons({
     <div className={`${containerClass} ${className}`}>
       {socialLinks.map((social) => {
         const iconElement = <social.icon className={iconClass} />;
+        const ariaLabel = `${social.label} (abre em nova aba)`;
 
         // Sempre usa motion.a quando withAnimation é true para efeitos consistentes
         if (withAnimation) {
@@ -57,7 +58,7 @@ export default function SocialIcons({
               target="_blank"
               rel="noopener noreferrer"
               className={linkClass}
-              aria-label={social.label}
+              aria-label={ariaLabel}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: social.delay }}
@@ -77,7 +78,7 @@ export default function SocialIcons({
             target="_blank"
             rel="noopener noreferrer"
             className={linkClass}
-            aria-label={social.label}
+            aria-label={ariaLabel}
           >
             {iconElement}
           </a>

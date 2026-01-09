@@ -4,6 +4,7 @@ export interface GaleriaProps {
   itens: GaleriaItem[]
   texto?: JSX.Element
   variant?: 'default' | 'sobre'
+  onImageClick?: (src: string) => void
 }
 
 export interface GaleriaItem {
@@ -16,5 +17,6 @@ export interface Portifolio {
   id: string
   titulo: string
   descricao: string
+  altImagem?: string
   galeria: GaleriaItem[]
 }

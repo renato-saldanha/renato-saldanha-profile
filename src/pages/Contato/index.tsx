@@ -1,6 +1,6 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import { BadgeCheck, AlertCircle, Mail, Send } from 'lucide-react'
+import { BadgeCheck, AlertCircle, Send, Loader2 } from 'lucide-react'
 import { useEmailJS } from '@/hooks/useEmailJS'
 import { Button } from '@/components/ui/button'
 import SEO from '@/components/SEO'
@@ -10,11 +10,25 @@ export default function Contato() {
   const [nome, setNome] = useState("")
   const [email, setEmail] = useState("")
   const [mensagem, setMensagem] = useState("")
+  const [campoErros, setCampoErros] = useState<{nome?: string, email?: string, mensagem?: string}>({})
+  const [touched, setTouched] = useState({ nome: false, email: false, mensagem: false })
   
   const { sendEmail, isLoading, isSuccess, error, reset } = useEmailJS()
 
+  const validarEmail = (valor: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
+
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
+
+    setTouched({ nome: true, email: true, mensagem: true });
+
+    const novosErros: {nome?: string, email?: string, mensagem?: string} = {}
+    if (!nome.trim()) novosErros.nome = 'Informe seu nome'
+    if (!email.trim()) novosErros.email = 'Informe seu email'
+    if (email && !validarEmail(email)) novosErros.email = 'Por favor, insira um email válido'
+    if (!mensagem.trim()) novosErros.mensagem = 'Digite uma mensagem'
+    setCampoErros(novosErros)
+    if (Object.keys(novosErros).length) return;
 
     const contato = {
       nome,
@@ -22,21 +36,45 @@ export default function Contato() {
       mensagem
     }
 
-    sendEmail(contato).then(() => {
-      if (isSuccess) {
-        limparCampos()
-      }
-    })
+    sendEmail(contato)
   }
 
-  function limparCampos() {
+  const limparCampos = useCallback(() => {
     setTimeout(() => {
       reset()
       setMensagem("")
       setNome("")
       setEmail("")
     }, 5000);
-  }
+  }, [reset])
+
+  useEffect(() => {
+    if (isSuccess) {
+      limparCampos()
+    }
+  }, [isSuccess, limparCampos])
+
+  useEffect(() => {
+    const novosErros: { nome?: string; email?: string; mensagem?: string } = {};
+
+    if (touched.nome && !nome.trim()) {
+      novosErros.nome = 'Informe seu nome';
+    }
+
+    if (touched.email) {
+      if (!email.trim()) {
+        novosErros.email = 'Informe seu email';
+      } else if (!validarEmail(email)) {
+        novosErros.email = 'Por favor, insira um email válido';
+      }
+    }
+
+    if (touched.mensagem && !mensagem.trim()) {
+      novosErros.mensagem = 'Digite uma mensagem';
+    }
+
+    setCampoErros(novosErros);
+  }, [email, mensagem, nome, touched.email, touched.mensagem, touched.nome]);
 
   return (
     <>
@@ -46,16 +84,16 @@ export default function Contato() {
         keywords="Contato, Consultoria, Projetos, Desenvolvimento de Software, Freelancer, Desenvolvedor Full Stack, Engenheiro de IA"
         url={`${baseUrl}/Contato`}
       />
-      <section className="py-32 relative min-h-screen">
-      <div className="container mx-auto px-6 relative z-10">
+      <section className="section-padding relative min-h-screen">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 px-2">
               <span className="gradient-text">Vamos Construir Algo Incrível</span>
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-muted-foreground max-w-2xl mx-auto px-4">
               Interessado em colaborar em projetos ou precisa de consultoria? 
-              Entre em contato e vamos transformar ideias em realidade.
+              Entre em contato e vamos transformar futuro em realidade!
             </p>
           </div>
 
@@ -81,12 +119,20 @@ export default function Contato() {
                       name="nome"
                       value={nome}
                       onChange={e => setNome(e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg bg-secondary/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                      onBlur={() => setTouched(prev => ({ ...prev, nome: true }))}
+                      className={`w-full px-4 py-3 rounded-lg bg-secondary/50 border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${
+                        touched.nome && campoErros.nome ? 'border-destructive focus:ring-destructive' : 'border-border'
+                      }`}
                       placeholder="Seu nome completo"
                       aria-label="Nome completo"
                       aria-required="true"
+                      aria-invalid={touched.nome && !!campoErros.nome}
+                      aria-describedby={touched.nome && campoErros.nome ? "nome-erro" : undefined}
                       required
                     />
+                    {touched.nome && campoErros.nome && (
+                      <span id="nome-erro" className="text-destructive text-sm">{campoErros.nome}</span>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -99,12 +145,20 @@ export default function Contato() {
                       name="email"
                       value={email}
                       onChange={e => setEmail(e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg bg-secondary/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                      onBlur={() => setTouched(prev => ({ ...prev, email: true }))}
+                      className={`w-full px-4 py-3 rounded-lg bg-secondary/50 border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${
+                        touched.email && campoErros.email ? 'border-destructive focus:ring-destructive' : 'border-border'
+                      }`}
                       placeholder="seu@email.com"
                       aria-label="Endereço de email"
                       aria-required="true"
+                      aria-invalid={touched.email && !!campoErros.email}
+                      aria-describedby={touched.email && campoErros.email ? "email-erro" : undefined}
                       required
                     />
+                    {touched.email && campoErros.email && (
+                      <span id="email-erro" className="text-destructive text-sm">{campoErros.email}</span>
+                    )}
                   </div>
                 </div>
 
@@ -116,20 +170,42 @@ export default function Contato() {
                     id="mensagem"
                     name="mensagem"
                     value={mensagem}
-                    onChange={e => setMensagem(e.target.value)}
+                      onChange={e => setMensagem(e.target.value)}
+                      onBlur={() => setTouched(prev => ({ ...prev, mensagem: true }))}
                     rows={6}
-                    className="w-full px-4 py-3 rounded-lg bg-secondary/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-vertical"
+                      className={`w-full px-4 py-3 rounded-lg bg-secondary/50 border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-vertical ${
+                        touched.mensagem && campoErros.mensagem ? 'border-destructive focus:ring-destructive' : 'border-border'
+                      }`}
                     placeholder="Sua mensagem..."
                     aria-label="Sua mensagem"
                     aria-required="true"
+                      aria-invalid={touched.mensagem && !!campoErros.mensagem}
+                      aria-describedby={touched.mensagem && campoErros.mensagem ? "mensagem-erro" : undefined}
                     required
                   />
+                  {touched.mensagem && campoErros.mensagem && (
+                    <span id="mensagem-erro" className="text-destructive text-sm">{campoErros.mensagem}</span>
+                  )}
                 </div>
 
                 {error && (
-                  <div className="flex items-center gap-2 p-4 rounded-lg bg-destructive/10 border border-destructive/50 text-destructive">
-                    <AlertCircle size={16} />
+                  <div 
+                    className="flex items-center gap-2 p-4 rounded-lg bg-destructive/20 border-2 border-destructive text-destructive animate-shake"
+                    role="alert"
+                    aria-live="assertive"
+                  >
+                    <AlertCircle size={16} aria-hidden="true" />
                     <span className="text-sm">{error}</span>
+                  </div>
+                )}
+
+                {isSuccess && (
+                  <div 
+                    role="status" 
+                    aria-live="polite"
+                    className="sr-only"
+                  >
+                    Email enviado com sucesso!
                   </div>
                 )}
 
@@ -142,17 +218,18 @@ export default function Contato() {
                 >
                   {isLoading ? (
                     <>
-                      <span className="animate-spin">⏳</span>
-                      Enviando...
+                      <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
+                      <span>Enviando...</span>
+                      <span className="sr-only">Por favor aguarde</span>
                     </>
                   ) : isSuccess ? (
                     <>
-                      <BadgeCheck className="w-5 h-5" />
+                      <BadgeCheck className="w-5 h-5" aria-hidden="true" />
                       Email enviado!
                     </>
                   ) : (
                     <>
-                      <Send className="w-5 h-5" />
+                      <Send className="w-5 h-5" aria-hidden="true" />
                       Enviar Mensagem
                     </>
                   )}

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import emailjs from '@emailjs/browser';
 import { EMAILJS_CONFIG } from '@/constants';
 
 export interface ContactFormData {
@@ -40,6 +39,8 @@ export const useEmailJS = (): UseEmailJSReturn => {
     setIsSuccess(false);
 
     try {
+      const emailjs = await import('@emailjs/browser');
+
       const response = await emailjs.send(
         EMAILJS_CONFIG.SERVICE_ID,
         EMAILJS_CONFIG.TEMPLATE_ID,

@@ -15,9 +15,9 @@ const galeriaItens: GaleriaItem[] = [
     imagem: Img1,
   },
   {
-    titulo: `Formado em Análise e Desenvolvimento de Sistemas em 2018, desde 2015 desenvolvendo soluções em Delphi pelas empresas em que passei. 
-            Com Delphi, ReactNative e ReactJS, desenvolvo soluções englobando as necessidade das três partes: 
-            Desktop, Mobile e Web. Foco em flexibilidade e qualidade na entrega do produto priorizando sempre a satisfação do cliente.`,
+    titulo: `Formado em Análise e Desenvolvimento de Sistemas em 2018, desde 2015 desenvolvendo soluções robustas. 
+            Desenvolvo soluções completas e escaláveis que integram IA para otimizar processos, automatizar tarefas e gerar valor real ao negócio. 
+            Foco em engenharia de software, qualidade na entrega e inovação tecnológica, priorizando sempre o produto e serviço.`,
     imagem: Img2,
   }
 ]
@@ -34,9 +34,9 @@ export default function Sobre() {
         url={`${baseUrl}/Sobre`}
       />
       <section className="pt-8 pb-6 md:pt-10 md:pb-8 relative">
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-3 sm:px-6 relative z-10">
         <div className="text-center mb-4 md:mb-6">
-          <h2 className="text-4xl md:text-5xl font-bold mb-2">
+          <h2 className="text-2xl mt-5 md:mt-5 2xl:mt-12 sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-1 px-1">
             <span className="gradient-text">Sobre Mim</span>
           </h2>
         </div>

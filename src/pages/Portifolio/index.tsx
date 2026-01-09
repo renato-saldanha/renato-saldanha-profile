@@ -6,26 +6,33 @@ import type { Portifolio } from '@/types'
 import GaleriaFotos from '@/components/GaleriaFotos'
 import { Button } from '@/components/ui/button'
 import SEO from '@/components/SEO'
+import { useRef, useCallback } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
+
+const DEFAULT_BLUR =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HwAFgwJ/lYtKuwAAAABJRU5ErkJggg==';
 
 const portifolios: Portifolio[] = [
   {
     id: 'crm-leads',
     titulo: 'CRM Leads',
     descricao: 'Mini CRM para gerenciamento de leads e oportunidades de venda',
+    altImagem: 'Dashboard do sistema CRM Leads mostrando lista de leads e métricas',
     galeria: [
-      { imagem: `/assets/crm_leads/crm_leads.png` },
-      { imagem: `/assets/crm_leads/crm_leads2.png` },
+      { imagem: `/assets/crm_leads/crm_leads.png`, titulo: 'Lista de leads com métricas principais' },
+      { imagem: `/assets/crm_leads/crm_leads2.png`, titulo: 'Dashboard de oportunidades no CRM Leads' },
     ]
   },
   {
     id: 'Course App',
     titulo: 'Course App',
     descricao: 'Portal de cursos online',
+    altImagem: 'Portal Course App exibindo login e dashboards do aluno e admin',
     galeria: [
-      { imagem: `/assets/course_app/front_course_login.png` },
-      { imagem: `/assets/course_app/front_course_f2a.png` },
-      { imagem: `/assets/course_app/front_course_admin.png` },
-      { imagem: `/assets/course_app/front_course_aluno.png` },
+      { imagem: `/assets/course_app/front_course_login.png`, titulo: 'Tela de login do Course App' },
+      { imagem: `/assets/course_app/front_course_f2a.png`, titulo: 'Tela de dois fatores no Course App' },
+      { imagem: `/assets/course_app/front_course_admin.png`, titulo: 'Dashboard administrativo do Course App' },
+      { imagem: `/assets/course_app/front_course_aluno.png`, titulo: 'Área do aluno com cursos e progresso' },
     ]
   }
 ]
@@ -34,6 +41,9 @@ export default function Portifolio() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://renatosaldanha.dev';
   const [modalAberto, setModalAberto] = useState(false)
   const [portifolioSelecionado, setPortifolioSelecionado] = useState<Portifolio | null>(null)
+  const botaoAbrirRef = useRef<HTMLButtonElement | null>(null)
+  const modalRef = useRef<HTMLDivElement>(null)
+  const [zoomedImage, setZoomedImage] = useState<string | null>(null)
 
   // Fechar modal com ESC
   useEffect(() => {
@@ -58,7 +68,8 @@ export default function Portifolio() {
     }
   }, [modalAberto])
 
-  const abrirModal = (portifolio: Portifolio) => {
+  const abrirModal = (portifolio: Portifolio, botao: HTMLButtonElement) => {
+    botaoAbrirRef.current = botao;
     setPortifolioSelecionado(portifolio)
     setModalAberto(true)
   }
@@ -67,8 +78,57 @@ export default function Portifolio() {
     setModalAberto(false)
     setTimeout(() => {
       setPortifolioSelecionado(null)
+      botaoAbrirRef.current?.focus()
     }, 300)
   }
+
+  useEffect(() => {
+    if (modalAberto && modalRef.current) {
+      modalRef.current.focus()
+    }
+  }, [modalAberto])
+
+  const handleFocusTrap = useCallback((e: KeyboardEvent) => {
+    if (!modalAberto || !modalRef.current) return
+    const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )
+    if (!focusable.length) return
+
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
+
+    if (e.key === 'Tab') {
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+  }, [modalAberto])
+
+  useEffect(() => {
+    if (!modalAberto) return
+    document.addEventListener('keydown', handleFocusTrap)
+    return () => document.removeEventListener('keydown', handleFocusTrap)
+  }, [modalAberto, handleFocusTrap])
+
+  const renderSkeletons = () => (
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="glass-card overflow-hidden">
+          <Skeleton className="h-48 w-full" />
+          <div className="p-6 space-y-3">
+            <Skeleton className="h-6 w-3/4" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <>
@@ -78,19 +138,19 @@ export default function Portifolio() {
         keywords="Portfólio, Projetos, CRM, Course App, Desenvolvimento de Software, Projetos de IA, React, Next.js, Delphi, React Native"
         url={`${baseUrl}/Portifolio`}
       />
-      <section className="py-32 relative min-h-screen">
-      <div className="container mx-auto px-6 relative z-10">
+      <section className="section-padding relative min-h-screen">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 px-2">
             <span className="gradient-text">Projetos em Destaque</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-muted-foreground max-w-2xl mx-auto px-4">
             Soluções desenvolvidas com foco em qualidade e inovação.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {portifolios.map((portifolio, index) => {
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {(portifolios.length ? portifolios : []).map((portifolio, index) => {
             const primeiraImagem = portifolio.galeria && portifolio.galeria.length > 0 
               ? portifolio.galeria[0].imagem 
               : null;
@@ -110,15 +170,20 @@ export default function Portifolio() {
                       <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 mix-blend-overlay z-10" />
                       <Image
                         src={primeiraImagem}
-                        alt={`Screenshot do projeto ${portifolio.titulo} - ${portifolio.descricao}`}
+                        alt={portifolio.altImagem || `Screenshot do projeto ${portifolio.titulo} - ${portifolio.descricao}`}
                         fill
                         className="object-cover transform group-hover:scale-110 transition-transform duration-700"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
                         loading={index === 0 ? "eager" : "lazy"}
                         priority={index === 0}
+                        placeholder="blur"
+                        blurDataURL={DEFAULT_BLUR}
                       />
                       <div className="absolute top-4 right-4 z-20">
-                        <span className="px-3 py-1 text-xs font-mono bg-background/80 backdrop-blur-sm border border-primary/50 rounded-full text-primary">
+                        <span 
+                          className="px-3 py-1 text-xs font-mono bg-background/80 backdrop-blur-sm border border-primary/50 rounded-full text-primary"
+                          aria-label={`Galeria com ${portifolio.galeria.length} imagens`}
+                        >
                           {portifolio.galeria.length} imagens
                         </span>
                       </div>
@@ -139,7 +204,8 @@ export default function Portifolio() {
                         variant="cyber" 
                         size="sm" 
                         className="flex-1"
-                        onClick={() => abrirModal(portifolio)}
+                  onClick={(e) => abrirModal(portifolio, e.currentTarget)}
+                  aria-label={`Ver detalhes do projeto ${portifolio.titulo}`}
                       >
                         Ver Detalhes
                       </Button>
@@ -149,6 +215,7 @@ export default function Portifolio() {
               </motion.div>
             );
           })}
+          {!portifolios.length && renderSkeletons()}
         </div>
       </div>
 
@@ -162,31 +229,37 @@ export default function Portifolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
+            role="presentation"
           >
             <motion.div
-              className="glass-card w-[95vw] sm:w-[90vw] max-w-5xl h-[90vh] sm:h-[85vh] max-h-[90vh] sm:max-h-[85vh] overflow-hidden flex flex-col m-4 sm:m-0"
+              ref={modalRef}
+              className="glass-card w-[92vw] sm:w-[88vw] max-w-5xl h-[85vh] sm:h-[80vh] max-h-[700px] overflow-hidden flex flex-col m-4 sm:m-0"
               onClick={(e) => e.stopPropagation()}
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.2 }}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="modal-titulo"
+              tabIndex={-1}
             >
               {/* Header do Modal */}
               <div className="flex justify-between items-center p-4 sm:p-6 border-b border-border flex-shrink-0">
-                <h2 className="text-xl sm:text-2xl font-bold text-foreground">{portifolioSelecionado.titulo}</h2>
+                <h2 id="modal-titulo" className="text-xl sm:text-2xl font-bold text-foreground">{portifolioSelecionado.titulo}</h2>
                 <button
                   className="w-10 h-10 rounded-lg bg-secondary/50 border border-border flex items-center justify-center text-foreground hover:bg-secondary hover:border-primary/50 transition-all"
                   onClick={fecharModal}
                   aria-label="Fechar modal"
                   type="button"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-5 h-5" aria-hidden="true" />
                 </button>
               </div>
 
               {/* Galeria no Modal */}
               <div className="flex-1 min-h-0 overflow-y-auto overflow-x-visible p-4 sm:p-6 modal-gallery-container" style={{ contain: 'layout style paint' }}>
-                <GaleriaFotos itens={portifolioSelecionado.galeria} />
+                <GaleriaFotos itens={portifolioSelecionado.galeria} onImageClick={setZoomedImage} />
               </div>
 
               {/* Descrição no Modal */}
@@ -198,6 +271,28 @@ export default function Portifolio() {
         )}
       </AnimatePresence>
     </section>
+    <AnimatePresence>
+      {zoomedImage && (
+        <motion.div
+          className="fixed inset-0 z-[60] bg-background/95 flex items-center justify-center cursor-zoom-out p-4"
+          onClick={() => setZoomedImage(null)}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <div className="relative w-full h-full max-w-6xl max-h-[90vh]">
+            <Image
+              src={zoomedImage}
+              alt="Imagem ampliada"
+              fill
+              className="object-contain"
+              placeholder="blur"
+              blurDataURL={DEFAULT_BLUR}
+            />
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
     </>
   )
 }

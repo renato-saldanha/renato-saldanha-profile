@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo } from "react";
+import { useEffect, useRef, useMemo, useState } from "react";
 
 interface AnimatedBackgroundProps {
   nodeCount?: number;
@@ -33,21 +33,50 @@ export default function AnimatedBackground({
   dotCount = 15,
   showFloatingElements = false
 }: AnimatedBackgroundProps) {
+  const [isMobile, setIsMobile] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number>();
 
+  useEffect(() => {
+    const detectMobile = () => {
+      if (typeof window === "undefined") return false;
+      const ua = navigator.userAgent || "";
+      return (
+        /iPhone|iPad|iPod|Android/i.test(ua) ||
+        navigator.maxTouchPoints > 1 ||
+        window.innerWidth < 768
+      );
+    };
+
+    setIsMobile(detectMobile());
+
+    const resizeHandler = () => setIsMobile(detectMobile());
+    window.addEventListener("resize", resizeHandler);
+    return () => window.removeEventListener("resize", resizeHandler);
+  }, []);
+
+  const effectiveNodeCount = isMobile ? Math.max(12, Math.floor(nodeCount / 2)) : nodeCount;
+  const effectiveDotCount = isMobile ? Math.max(6, Math.floor(dotCount / 2)) : dotCount;
+
   // Generate static positions for animated dots
   const animatedDots = useMemo(() => {
-    return Array.from({ length: dotCount }).map((_, i) => ({
+    return Array.from({ length: effectiveDotCount }).map((_, i) => ({
       id: i,
       left: Math.random() * 100,
       top: Math.random() * 100,
       delay: Math.random() * 5,
-      duration: 3 + Math.random() * 4
+      duration: 6 + Math.random() * 6
     }));
-  }, [dotCount]);
+  }, [effectiveDotCount]);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      return;
+    }
+
+    if (isMobile) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -64,13 +93,13 @@ export default function AnimatedBackground({
 
     // Neural network structure - organized in layers
     const layerCount = 4; // Input, Hidden1, Hidden2, Output
-    const nodesPerLayer = Math.ceil(nodeCount / layerCount);
+    const nodesPerLayer = Math.ceil(effectiveNodeCount / layerCount);
     const nodes: NeuralNode[] = [];
     const connections: NeuralConnection[] = [];
     
     // Initialize nodes in layers
     for (let layer = 0; layer < layerCount; layer++) {
-      const layerNodes = layer === layerCount - 1 ? nodeCount - (layerCount - 1) * nodesPerLayer : nodesPerLayer;
+      const layerNodes = layer === layerCount - 1 ? effectiveNodeCount - (layerCount - 1) * nodesPerLayer : nodesPerLayer;
       const layerX = (canvas.width / (layerCount + 1)) * (layer + 1);
       const layerHeight = canvas.height * 0.7;
       const startY = (canvas.height - layerHeight) / 2;
@@ -256,7 +285,16 @@ export default function AnimatedBackground({
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [nodeCount, connectionDistance]);
+  }, [connectionDistance, effectiveNodeCount, isMobile]);
+
+  if (isMobile) {
+    return (
+      <div className="fixed inset-0 pointer-events-none overflow-hidden cyber-grid" style={{ zIndex: 0 }}>
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/96 to-background" style={{ zIndex: 1 }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at center, transparent 45%, hsl(var(--background)) 100%)', zIndex: 2 }} />
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden cyber-grid" style={{ zIndex: 0 }}>
@@ -264,6 +302,8 @@ export default function AnimatedBackground({
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full"
+        role="img"
+        aria-label="Animação decorativa de rede neural com nós conectados"
         style={{ zIndex: 0 }}
       />
 
