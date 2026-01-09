@@ -301,10 +301,10 @@
 
   @keyframes pulse-glow {
     0%, 100% { 
-      box-shadow: 0 0 10px hsl(var(--primary) / 0.4), 0 0 20px hsl(var(--primary) / 0.2);
+      box-shadow: 0 0 15px hsl(var(--primary) / 0.35), 0 0 30px hsl(var(--primary) / 0.18);
     }
     50% { 
-      box-shadow: 0 0 25px hsl(var(--primary) / 0.7), 0 0 50px hsl(var(--primary) / 0.4);
+      box-shadow: 0 0 22px hsl(var(--primary) / 0.5), 0 0 42px hsl(var(--primary) / 0.24);
     }
   }
 
@@ -569,16 +569,6 @@
     }
   }
 
-  /* Respeita usuários que preferem menos movimento */
-  @media (prefers-reduced-motion: reduce) {
-    .animated-dot,
-    .floating,
-    .pulse-glow,
-    .glow-dot,
-    .animate-pulse,
-    [class*="animate-"] {
-      animation: none !important;
-      transition: none !important;
-    }
-  }
+    
+  
 }
