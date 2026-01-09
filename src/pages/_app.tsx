@@ -2,13 +2,20 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import SocialBar from "@/components/SocialBar";
 import ScrollIndicator from "@/components/ScrollIndicator";
-import AnimatedBackground from "@/components/AnimatedBackground";
+import dynamic from "next/dynamic";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+
+// Dynamic import com ssr:false para evitar hydration mismatch
+// O componente usa Math.random() que gera valores diferentes no servidor vs cliente
+const AnimatedBackground = dynamic(
+  () => import("@/components/AnimatedBackground"),
+  { ssr: false }
+);
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],

@@ -323,12 +323,12 @@ export default function AnimatedBackground({
       {animatedDots.map((dot) => (
         <div
           key={`dot-${dot.id}`}
-          className={`absolute ${isClient ? 'animated-dot' : ''}`}
+          className="absolute animated-dot"
           style={{
             left: `${dot.left}%`,
             top: `${dot.top}%`,
-            animationDelay: isClient ? `${dot.delay}s` : undefined,
-            animationDuration: isClient ? `${dot.duration}s` : undefined,
+            animationDelay: `${dot.delay}s`,
+            animationDuration: `${dot.duration}s`,
             zIndex: 1
           }}
         >

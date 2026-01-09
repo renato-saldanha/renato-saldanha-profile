@@ -15,6 +15,20 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
+  // Configurações do Webpack
+  webpack: (config, { isServer }) => {
+    // Ignora pastas de sistema do Windows e outras desnecessárias
+    config.watchOptions = {
+      ...config.watchOptions,
+      ignored: [
+        '**/node_modules/**',
+        '**/.git/**',
+        '**/.next/**',
+        '**/System Volume Information/**',
+      ],
+    };
+    return config;
+  },
   // Configurações de segurança
   headers: async () => {
     return [
