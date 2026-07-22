@@ -14,24 +14,35 @@ const DEFAULT_BLUR =
 
 const portifolios: Portifolio[] = [
   {
-    id: 'crm-leads',
-    titulo: 'CRM Leads',
-    descricao: 'Mini CRM para gerenciamento de leads e oportunidades de venda',
-    altImagem: 'Dashboard do sistema CRM Leads mostrando lista de leads e métricas',
+    id: 'vmitech',
+    titulo: 'VMITech',
+    descricao: 'Auditoria e normalização de banco de dados (250 tabelas) de sistema de gestão de frotas e locação',
+    altImagem: 'Logo da VMI Tech, empresa de gestão de frotas e locação',
     galeria: [
-      { imagem: `/assets/crm_leads/crm_leads.png`, titulo: 'Lista de leads com métricas principais' },
-      { imagem: `/assets/crm_leads/crm_leads2.png`, titulo: 'Dashboard de oportunidades no CRM Leads' },
+      { imagem: `/assets/vmitech/logo.png`, titulo: 'VMI Tech' },
+    ]
+  },
+  {
+    id: 'forgov',
+    titulo: 'ForGov',
+    descricao: 'Chatbot de IA via WhatsApp para gestores públicos municipais, com painel administrativo web',
+    altImagem: 'Painel administrativo do ForGov mostrando login, dashboard, métricas e histórico de conversas do chatbot',
+    galeria: [
+      { imagem: `/assets/forgov/login.png`, titulo: 'Login via WhatsApp' },
+      { imagem: `/assets/forgov/dashboard.png`, titulo: 'Painel inicial do administrador' },
+      { imagem: `/assets/forgov/metricas.png`, titulo: 'Métricas de uso do chatbot' },
+      { imagem: `/assets/forgov/conversas.png`, titulo: 'Histórico de conversas do chatbot' },
     ]
   },
   {
     id: 'Course App',
     titulo: 'Course App',
-    descricao: 'Portal de cursos online',
-    altImagem: 'Portal Course App exibindo login e dashboards do aluno e admin',
+    descricao: 'Plataforma de treinamentos com login por e-mail e verificação em duas etapas, painel administrativo para turmas e recursos, e área do aluno com acompanhamento de progresso',
+    altImagem: 'Portal de treinamentos Course App exibindo login, verificação em duas etapas e painéis do aluno e administrador',
     galeria: [
-      { imagem: `/assets/course_app/front_course_login.png`, titulo: 'Tela de login do Course App' },
-      { imagem: `/assets/course_app/front_course_f2a.png`, titulo: 'Tela de dois fatores no Course App' },
-      { imagem: `/assets/course_app/front_course_admin.png`, titulo: 'Dashboard administrativo do Course App' },
+      { imagem: `/assets/course_app/front_course_login.png`, titulo: 'Login por e-mail' },
+      { imagem: `/assets/course_app/front_course_f2a.png`, titulo: 'Verificação em duas etapas' },
+      { imagem: `/assets/course_app/front_course_admin.png`, titulo: 'Painel administrativo de turmas e recursos' },
       { imagem: `/assets/course_app/front_course_aluno.png`, titulo: 'Área do aluno com cursos e progresso' },
     ]
   }
@@ -134,8 +145,8 @@ export default function Portifolio() {
     <>
       <SEO
         title="Portfólio - Projetos em Destaque"
-        description="Conheça os projetos desenvolvidos por Renato Saldanha: CRM Leads, Course App e outras soluções em IA e desenvolvimento Full Stack. Soluções desenvolvidas com foco em qualidade e inovação."
-        keywords="Portfólio, Projetos, CRM, Course App, Desenvolvimento de Software, Projetos de IA, React, Next.js, Delphi, React Native"
+        description="Conheça os projetos desenvolvidos por GenIA: VMITech, ForGov, Course App e outras soluções em IA e desenvolvimento Full Stack. Soluções desenvolvidas com foco em qualidade e inovação."
+        keywords="Portfólio, Projetos, VMITech, ForGov, Course App, Desenvolvimento de Software, React, Next.js, Delphi, React Native"
         url={`${baseUrl}/Portifolio`}
       />
       <section className="section-padding relative min-h-screen">
@@ -182,9 +193,9 @@ export default function Portifolio() {
                       <div className="absolute top-4 right-4 z-20">
                         <span 
                           className="px-3 py-1 text-xs font-mono bg-background/80 backdrop-blur-sm border border-primary/50 rounded-full text-primary"
-                          aria-label={`Galeria com ${portifolio.galeria.length} imagens`}
+                          aria-label={`Galeria com ${portifolio.galeria.length} ${portifolio.galeria.length === 1 ? 'imagem' : 'imagens'}`}
                         >
-                          {portifolio.galeria.length} imagens
+                          {portifolio.galeria.length} {portifolio.galeria.length === 1 ? 'imagem' : 'imagens'}
                         </span>
                       </div>
                     </div>
