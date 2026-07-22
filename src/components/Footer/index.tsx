@@ -17,7 +17,7 @@ export default function Footer() {
               <div className="flex justify-center mb-8 md:mb-10">
               <h3 className="text-2xl md:text-3xl font-bold">
                       <span className="gradient-text">
-                        Renato Saldanha
+                        GenIA
                       </span>
                     </h3>
               </div>
@@ -51,7 +51,7 @@ export default function Footer() {
           {/* Footer Copyright */}
           <div className="text-center pt-6 border-t border-border/50">
             <p className="text-sm text-muted-foreground font-mono">
-              © {currentYear} Renato Saldanha. <span className="text-primary">Todos os direitos reservados</span>
+              © {currentYear} GenIA. <span className="text-primary">Todos os direitos reservados</span>
             </p>
           </div>
         </div>

@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Brain, Menu, X, Download, ExternalLink } from 'lucide-react'
+import { Menu, X, ExternalLink } from 'lucide-react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -23,7 +24,7 @@ export default function Navbar() {
 
   function handleCVClick() {
     // Abre o PDF do Google Drive em nova aba para visualização e download
-    window.open('https://drive.google.com/file/d/1vtRwTgja94IINpXHq1_prnoWgCHi2md4/view?usp=drive_link', '_blank')
+    window.open('https://drive.google.com/file/d/1IfhykcEABEEI88xa-Bl91hC7-fj8Ueo2/view?usp=drive_link', '_blank')
   }
 
   return (
@@ -36,14 +37,21 @@ export default function Navbar() {
               href="/" 
               onClick={() => setIsOpen(false)}
               className="flex items-center gap-2 sm:gap-3 group cursor-pointer hover:opacity-90 transition-opacity flex-shrink-0"
-              aria-label="Renato Saldanha - Ir para página inicial"
+              aria-label="GenIA - Ir para página inicial"
             >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center group-hover:scale-110 group-hover:shadow-[0_0_20px_hsl(var(--primary)/0.5)] transition-all">
-                <Brain className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" aria-hidden="true" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Image
+                  src="/assets/geniatention-icon.png"
+                  alt=""
+                  width={48}
+                  height={48}
+                  priority
+                  className="w-full h-full object-contain drop-shadow-[0_0_12px_hsl(var(--primary)/0.5)]"
+                />
               </div>
               <span className="font-bold text-base sm:text-xl">
-                <span className="text-foreground">Renato</span>
-                <span className="text-primary">_Saldanha</span>
+                <span className="text-foreground">Gen</span>
+                <span className="text-primary">IA</span>
               </span>
             </Link>
 
@@ -72,10 +80,9 @@ export default function Navbar() {
                 size="default"
                 onClick={handleCVClick}
                 className="px-5 border-primary text-primary hover:bg-primary/10 group"
-                aria-label="Baixar currículo (abre em nova aba)"
+                aria-label="Meus dados (abre em nova aba)"
               >
-                <Download className="w-4 h-4" aria-hidden="true" />
-                Baixar CV
+                Meus dados
                 <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
                 <span className="sr-only">(abre em nova aba)</span>
               </Button>
@@ -128,10 +135,9 @@ export default function Navbar() {
                       handleCVClick()
                       setIsOpen(false)
                     }}
-                    aria-label="Baixar currículo (abre em nova aba)"
+                    aria-label="Meus dados (abre em nova aba)"
                   >
-                    <Download className="w-4 h-4" aria-hidden="true" />
-                  Baixar CV
+                  Meus dados
                   <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
                     <span className="sr-only">(abre em nova aba)</span>
                   </Button>
