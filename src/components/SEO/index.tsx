@@ -10,15 +10,15 @@ interface SEOProps {
   noindex?: boolean;
 }
 
-const defaultTitle = 'Renato Saldanha - Engenheiro de IA & Desenvolvedor Full Stack';
-const defaultDescription = 'Portfólio de Renato Saldanha - Desenvolvedor Full Stack especializado em Engenharia de IA e soluções multiplataforma. Transformando dados em decisões e algoritmos em inovação.';
+const defaultTitle = 'GenIA - Engenheiro de Softwares';
+const defaultDescription = 'Portfólio de GenIA - Engenheiro de Softwares especializado em soluções multiplataforma. Transformando dados em decisões e algoritmos em inovação.';
 const defaultUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://renatosaldanha.dev';
 const defaultImage = `${defaultUrl}/assets/profile.png`;
 
 export default function SEO({
   title = defaultTitle,
   description = defaultDescription,
-  keywords = 'Desenvolvedor Full Stack, Engenheiro de IA, Inteligência Artificial, React, Next.js, Delphi, React Native, Desenvolvimento de Software, Programação, Portfólio',
+  keywords = 'Desenvolvedor Full Stack, Engenheiro de Software, Inteligência Artificial, React, Next.js, Delphi, React Native, Desenvolvimento de Software, Programação, Portfólio',
   image = defaultImage,
   url = defaultUrl,
   type = 'website',
@@ -34,7 +34,7 @@ export default function SEO({
       <meta name="title" content={fullTitle} />
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
-      <meta name="author" content="Renato Saldanha" />
+      <meta name="author" content="GenIA" />
       <meta name="robots" content={noindex ? 'noindex,nofollow' : 'index,follow'} />
       <meta name="language" content="Portuguese" />
       <meta name="revisit-after" content="7 days" />
@@ -51,7 +51,7 @@ export default function SEO({
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:locale" content="pt_BR" />
-      <meta property="og:site_name" content="Renato Saldanha - Portfólio" />
+      <meta property="og:site_name" content="GenIA - Portfólio" />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />

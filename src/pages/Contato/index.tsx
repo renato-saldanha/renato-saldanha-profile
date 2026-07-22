@@ -80,8 +80,8 @@ export default function Contato() {
     <>
       <SEO
         title="Contato"
-        description="Entre em contato com Renato Saldanha para colaborações, projetos ou consultoria em desenvolvimento Full Stack e Engenharia de IA. Vamos transformar ideias em realidade."
-        keywords="Contato, Consultoria, Projetos, Desenvolvimento de Software, Freelancer, Desenvolvedor Full Stack, Engenheiro de IA"
+        description="Entre em contato com GenIA para colaborações, projetos ou consultoria em engenharia de software. Vamos transformar ideias em realidade."
+        keywords="Contato, Consultoria, Projetos, Desenvolvimento de Software, Freelancer, Desenvolvedor Full Stack, Engenheiro de Software"
         url={`${baseUrl}/Contato`}
       />
       <section className="section-padding relative min-h-screen">

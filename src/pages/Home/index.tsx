@@ -12,7 +12,7 @@ export default function HeroSection() {
         <div className="animate-fade-up">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/50 border border-border mb-8">
             <Sparkles className="w-4 h-4 text-primary" aria-hidden="true" />
-            <span className="text-sm font-mono text-muted-foreground">Desenvolvedor Full Stack & Engenheiro de IA</span>
+            <span className="text-sm font-mono text-muted-foreground">Engenheiro de Softwares</span>
           </div>
         </div>
 
@@ -50,7 +50,7 @@ export default function HeroSection() {
         {/* Stats */}
         <dl className="grid grid-cols-2 gap-8 max-w-2xl mx-auto mt-20 animate-fade-up animate-delay-400">
           {[
-            { value: "2+", label: "Projetos de IA" },
+            { value: "2+", label: "Projetos" },
             { value: "8+", label: "Anos de Experiência" },            
           ].map((stat) => (
             <div key={stat.label} className="text-center">

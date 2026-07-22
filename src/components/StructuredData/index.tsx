@@ -10,9 +10,9 @@ export default function StructuredData({ type = 'Person' }: StructuredDataProps)
   const personData = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: 'Renato Saldanha',
-    jobTitle: 'Desenvolvedor Full Stack & Engenheiro de IA',
-    description: 'Desenvolvedor Full Stack especializado em Engenharia de IA e soluções multiplataforma',
+    name: 'GenIA',
+    jobTitle: 'Engenheiro de Softwares',
+    description: 'Engenheiro de Softwares especializado em soluções multiplataforma',
     url: baseUrl,
     image: `${baseUrl}/assets/profile.png`,
     sameAs: [
@@ -45,12 +45,12 @@ export default function StructuredData({ type = 'Person' }: StructuredDataProps)
   const websiteData = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Renato Saldanha - Portfólio',
+    name: 'GenIA - Portfólio',
     url: baseUrl,
-    description: 'Portfólio de Renato Saldanha - Desenvolvedor Full Stack & Engenheiro de IA',
+    description: 'Portfólio de GenIA - Engenheiro de Softwares',
     author: {
       '@type': 'Person',
-      name: 'Renato Saldanha',
+      name: 'GenIA',
     },
   };
 

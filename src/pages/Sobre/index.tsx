@@ -29,8 +29,8 @@ export default function Sobre() {
     <>
       <SEO
         title="Sobre Mim"
-        description="Conheça Renato Saldanha - Desenvolvedor Full Stack e Engenheiro de IA. Natural de Cuiabá-MT, com experiência em Delphi, React, React Native e soluções de IA. Formado em Análise e Desenvolvimento de Sistemas."
-        keywords="Sobre Renato Saldanha, Desenvolvedor Cuiabá, Programador Mato Grosso, Experiência desenvolvimento, Delphi, React, React Native, Engenheiro de IA"
+        description="Conheça GenIA - Engenheiro de Softwares. Natural de Cuiabá-MT, com experiência em Delphi, React, React Native e soluções de IA. Formado em Análise e Desenvolvimento de Sistemas."
+        keywords="Sobre GenIA, Desenvolvedor Cuiabá, Programador Mato Grosso, Experiência desenvolvimento, Delphi, React, React Native, Engenheiro de Software"
         url={`${baseUrl}/Sobre`}
       />
       <section className="pt-8 pb-6 md:pt-10 md:pb-8 relative">
