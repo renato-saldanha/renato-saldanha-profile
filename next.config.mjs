@@ -3,6 +3,9 @@ const nextConfig = {
   reactStrictMode: true,
   compress: true,
   poweredByHeader: false,
+  // Fixa a raiz do projeto: sem isso o Next detecta o package-lock.json
+  // solto em /home/renato-saldanha e passa a rastrear a home inteira do usuário.
+  outputFileTracingRoot: process.cwd(),
   images: {
     domains: [],
     formats: ['image/webp', 'image/avif'],    
