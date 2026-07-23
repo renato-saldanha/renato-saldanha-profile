@@ -1,8 +1,9 @@
 import { StaticImageData } from "next/image"
+import type { ReactElement } from "react"
 
 export interface GaleriaProps {
   itens: GaleriaItem[]
-  texto?: JSX.Element
+  texto?: ReactElement
   variant?: 'default' | 'sobre'
   onImageClick?: (src: string) => void
 }

@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import { EMAILJS_CONFIG } from '@/constants';
+import { validateContactForm, type ContactFormData } from '@/lib/validation';
 
-export interface ContactFormData {
-  nome: string;
-  email: string;
-  mensagem: string;
-}
+export type { ContactFormData };
 
 export interface UseEmailJSReturn {
   sendEmail: (data: ContactFormData) => Promise<void>;
@@ -21,16 +18,10 @@ export const useEmailJS = (): UseEmailJSReturn => {
   const [error, setError] = useState<string | null>(null);
 
   const sendEmail = async (data: ContactFormData): Promise<void> => {
-    // Validação dos campos
-    if (!data.nome || !data.email || !data.mensagem) {
-      setError('Por favor, preencha todos os campos.');
-      return;
-    }
-
-    // Validação básica de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-      setError('Por favor, insira um email válido.');
+    const errors = validateContactForm(data);
+    const firstError = errors.nome ?? errors.email ?? errors.mensagem;
+    if (firstError) {
+      setError(firstError);
       return;
     }
 
