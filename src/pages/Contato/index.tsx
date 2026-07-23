@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { BadgeCheck, AlertCircle, Send, Loader2 } from 'lucide-react'
 import { useEmailJS } from '@/hooks/useEmailJS'
+import { validateContactForm, type ContactFormErrors } from '@/lib/validation'
 import { Button } from '@/components/ui/button'
 import SEO from '@/components/SEO'
 
@@ -10,23 +11,17 @@ export default function Contato() {
   const [nome, setNome] = useState("")
   const [email, setEmail] = useState("")
   const [mensagem, setMensagem] = useState("")
-  const [campoErros, setCampoErros] = useState<{nome?: string, email?: string, mensagem?: string}>({})
+  const [campoErros, setCampoErros] = useState<ContactFormErrors>({})
   const [touched, setTouched] = useState({ nome: false, email: false, mensagem: false })
-  
-  const { sendEmail, isLoading, isSuccess, error, reset } = useEmailJS()
 
-  const validarEmail = (valor: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
+  const { sendEmail, isLoading, isSuccess, error, reset } = useEmailJS()
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
     setTouched({ nome: true, email: true, mensagem: true });
 
-    const novosErros: {nome?: string, email?: string, mensagem?: string} = {}
-    if (!nome.trim()) novosErros.nome = 'Informe seu nome'
-    if (!email.trim()) novosErros.email = 'Informe seu email'
-    if (email && !validarEmail(email)) novosErros.email = 'Por favor, insira um email válido'
-    if (!mensagem.trim()) novosErros.mensagem = 'Digite uma mensagem'
+    const novosErros = validateContactForm({ nome, email, mensagem })
     setCampoErros(novosErros)
     if (Object.keys(novosErros).length) return;
 
@@ -55,23 +50,12 @@ export default function Contato() {
   }, [isSuccess, limparCampos])
 
   useEffect(() => {
-    const novosErros: { nome?: string; email?: string; mensagem?: string } = {};
+    const errors = validateContactForm({ nome, email, mensagem });
+    const novosErros: ContactFormErrors = {};
 
-    if (touched.nome && !nome.trim()) {
-      novosErros.nome = 'Informe seu nome';
-    }
-
-    if (touched.email) {
-      if (!email.trim()) {
-        novosErros.email = 'Informe seu email';
-      } else if (!validarEmail(email)) {
-        novosErros.email = 'Por favor, insira um email válido';
-      }
-    }
-
-    if (touched.mensagem && !mensagem.trim()) {
-      novosErros.mensagem = 'Digite uma mensagem';
-    }
+    if (touched.nome && errors.nome) novosErros.nome = errors.nome;
+    if (touched.email && errors.email) novosErros.email = errors.email;
+    if (touched.mensagem && errors.mensagem) novosErros.mensagem = errors.mensagem;
 
     setCampoErros(novosErros);
   }, [email, mensagem, nome, touched.email, touched.mensagem, touched.nome]);
