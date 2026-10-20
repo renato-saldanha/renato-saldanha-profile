@@ -33,11 +33,12 @@ Co-localizados: `src/lib/validation.ts` + `src/lib/validation.test.ts` no mesmo 
 
 - `src/lib/validation.ts`
 - `src/hooks/useEmailJS.ts`
+- `src/lib/gallery.ts` — só os invariantes; a estratégia de pré-carregamento dos vizinhos está como `it.todo`.
 
 ## O que ainda não tem cobertura
 
 Documentado aqui de propósito, pra não ser esquecido silenciosamente:
 
 - **`src/components/Header/index.tsx`** (menu mobile) — abrir/fechar via `userEvent`, `aria-expanded` alternando, fecha ao clicar num link. Estado simples + RTL, sem pegadinha grande.
-- **`src/pages/Portifolio/index.tsx`** (modal + focus trap) — precisa de `vi.useFakeTimers()` pro `setTimeout` de 300ms em `fecharModal`, e mock de `next/router` (o componente é uma página). Testar: abrir move o foco pro modal, Tab/Shift+Tab fica preso entre o primeiro e o último elemento focável, Esc fecha, foco volta pro botão que abriu.
+- **`src/pages/Portifolio/index.tsx`** (modal + zoom + focus trap) — modal e zoom são renderizados via `createPortal` no `document.body` depois do mount, então as queries do RTL devem usar `screen` (não o `container`). Testar: abrir move o foco pro modal, Tab/Shift+Tab fica preso na camada de cima (zoom, se aberto; senão o modal), Esc fecha primeiro o zoom e depois o modal, e o foco volta pro elemento que abriu cada camada.
 - **`src/components/GaleriaFotos/index.tsx`** (carousel Embla) — construído sobre `embla-carousel-react`. Decidir entre mockar a API do Embla (`CarouselApi`) ou aceitar um teste de integração mais pesado. Testar: dots de paginação, prev/next, `aria-label` por slide, callback de zoom de imagem.
