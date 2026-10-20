@@ -52,7 +52,9 @@ const nextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline';",
+            // img-src: placeholders blur do next/image são data: URIs.
+            // connect-src: o @emailjs/browser faz fetch direto para api.emailjs.com.
+            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.emailjs.com;",
           },
         ],
       },
