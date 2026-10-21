@@ -7,7 +7,6 @@ const nextConfig = {
   // solto em /home/renato-saldanha e passa a rastrear a home inteira do usuário.
   outputFileTracingRoot: process.cwd(),
   images: {
-    domains: [],
     formats: ['image/webp', 'image/avif'],    
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
@@ -17,20 +16,6 @@ const nextConfig = {
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
-  },
-  // Configurações do Webpack
-  webpack: (config, { isServer }) => {
-    // Ignora pastas de sistema do Windows e outras desnecessárias
-    config.watchOptions = {
-      ...config.watchOptions,
-      ignored: [
-        '**/node_modules/**',
-        '**/.git/**',
-        '**/.next/**',
-        '**/System Volume Information/**',
-      ],
-    };
-    return config;
   },
   // Configurações de segurança
   headers: async () => {
