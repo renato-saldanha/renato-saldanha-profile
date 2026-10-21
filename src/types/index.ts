@@ -5,7 +5,7 @@ export interface GaleriaProps {
   itens: GaleriaItem[]
   texto?: ReactElement
   variant?: 'default' | 'sobre'
-  onImageClick?: (src: string) => void
+  onImageClick?: (item: GaleriaItem) => void
 }
 
 export interface GaleriaItem {

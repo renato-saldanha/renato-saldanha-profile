@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Menu, X, ExternalLink } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import Image from 'next/image'
-import { Button } from '@/components/ui/button'
 import { AnimatePresence, motion } from 'framer-motion'
 
 const navLinks = [
@@ -20,11 +19,6 @@ export default function Navbar() {
   function toHome() {
     router.push("/")
     setIsOpen(false)
-  }
-
-  function handleCVClick() {
-    // Abre o PDF do Google Drive em nova aba para visualização e download
-    window.open('https://drive.google.com/file/d/1IfhykcEABEEI88xa-Bl91hC7-fj8Ueo2/view?usp=drive_link', '_blank')
   }
 
   return (
@@ -73,21 +67,6 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* CTA Button */}
-            <div className="hidden md:block">
-              <Button 
-                variant="outline" 
-                size="default"
-                onClick={handleCVClick}
-                className="px-5 border-primary text-primary hover:bg-primary/10 group"
-                aria-label="Meus dados (abre em nova aba)"
-              >
-                Meus dados
-                <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
-                <span className="sr-only">(abre em nova aba)</span>
-              </Button>
-            </div>
-
             {/* Mobile Menu Button */}
             <button
               className="md:hidden text-foreground"
@@ -127,20 +106,6 @@ export default function Navbar() {
                       {link.label}
                     </Link>
                   ))}
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                  className="w-full mt-2 border-primary text-primary hover:bg-primary/10 group"
-                    onClick={() => {
-                      handleCVClick()
-                      setIsOpen(false)
-                    }}
-                    aria-label="Meus dados (abre em nova aba)"
-                  >
-                  Meus dados
-                  <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
-                    <span className="sr-only">(abre em nova aba)</span>
-                  </Button>
                 </div>
               </motion.div>
             )}

@@ -8,16 +8,21 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from '@/components/ui/carousel'
+import { DEFAULT_BLUR } from '@/constants'
+import { deveCarregarImagem } from '@/lib/gallery'
 import { cn } from '@/lib/utils'
 import { GaleriaProps } from '@/types'
-
-const DEFAULT_BLUR =
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HwAFgwJ/lYtKuwAAAABJRU5ErkJggg==';
 
 const GaleriaFotos: React.FC<GaleriaProps> = ({ itens, variant = 'default', onImageClick }: GaleriaProps) => {
   const [api, setApi] = useState<CarouselApi | null>(null)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [slideCount, setSlideCount] = useState(itens.length)
+
+  // Na variante "sobre" o texto é o conteúdo do slide, ao lado da foto. Na padrão vira
+  // legenda abaixo do carrossel, para as setas centralizarem só na imagem.
+  const textoNoSlide = variant === 'sobre'
+  const temLegenda = !textoNoSlide && itens.some(item => item.titulo)
+  const loop = itens.length > 1
 
   useEffect(() => {
     if (!api) return
@@ -42,72 +47,94 @@ const GaleriaFotos: React.FC<GaleriaProps> = ({ itens, variant = 'default', onIm
       'gallery-container',
       variant === 'sobre' && 'gallery-about-variant'
     )}>
+      {/* Primeiro filho de propósito: é absoluto (sr-only) e não pode ser o :last-child do CSS do modal */}
+      {temLegenda && <p className="sr-only" aria-live="polite">{itens[currentSlide]?.titulo}</p>}
       <Carousel
         opts={{
           align: 'start',
-          loop: true,
+          loop,
           duration: 20,
           dragFree: false,
         }}
         setApi={setApi}
         className="gallery-carousel"
       >
-        <CarouselContent className="ml-0">
-          {itens.map((item, i) => (
-            <CarouselItem 
-              key={i} 
-              className="pl-0 flex-none min-w-0 basis-full"
-              aria-label={`Slide ${i + 1} de ${itens.length}`}
-            >
-              <div className="gallery-panel">
-                {item.titulo && (
-                  <div className="gallery-about-text">
-                    <p className="m-0 opacity-90 rounded-lg">{item.titulo}</p>
+        <CarouselContent className="gallery-track ml-0" viewportClassName="gallery-viewport">
+          {itens.map((item, i) => {
+            const imagem = (
+              <Image
+                fill
+                sizes={textoNoSlide ? '(max-width: 768px) 100vw, 450px' : '(max-width: 768px) 100vw, 1000px'}
+                alt={item.titulo || `Imagem ${i + 1}`}
+                src={item.imagem}
+                priority={i === 0}
+                loading={i === 0 ? undefined : deveCarregarImagem(i, currentSlide, itens.length, loop) ? 'eager' : 'lazy'}
+                quality={75}
+                placeholder="blur"
+                blurDataURL={typeof item.imagem === 'string' ? DEFAULT_BLUR : undefined}
+                className="gallery-image"
+              />
+            )
+
+            return (
+              <CarouselItem
+                key={i}
+                className="pl-0 flex flex-col"
+                aria-label={`Slide ${i + 1} de ${itens.length}`}
+              >
+                <div className="gallery-panel">
+                  {textoNoSlide && item.titulo && (
+                    <div className="gallery-about-text">
+                      <p className="m-0 opacity-90">{item.titulo}</p>
+                    </div>
+                  )}
+                  <div className={cn('gallery-image-container', item.style)}>
+                    {onImageClick ? (
+                      <button
+                        type="button"
+                        className="gallery-zoom-button"
+                        onClick={() => onImageClick(item)}
+                        aria-label={`Ampliar imagem: ${item.titulo || `slide ${i + 1}`}`}
+                      >
+                        {imagem}
+                      </button>
+                    ) : imagem}
                   </div>
-                )}
-                <div className={cn(
-                  'gallery-image-container',
-                  item?.style
-                )}>
-                  <Image
-                    width={1200}
-                    height={900}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
-                    alt={item.titulo || `Imagem ${i + 1}`}
-                    src={item.imagem}
-                    priority={i === 0}
-                    quality={75}
-                    placeholder="blur"
-                    blurDataURL={DEFAULT_BLUR}
-                    className={cn(
-                      "gallery-image",
-                      onImageClick && "cursor-zoom-in hover:opacity-90 transition-opacity"
-                    )}
-                    onClick={onImageClick ? () => onImageClick(String(item.imagem)) : undefined}
-                    role={onImageClick ? "button" : undefined}
-                    aria-label={onImageClick ? `Ampliar slide ${i + 1}` : undefined}
-                  />
                 </div>
-              </div>
-            </CarouselItem>
-          ))}
+              </CarouselItem>
+            )
+          })}
         </CarouselContent>
-        <CarouselPrevious className="gallery-carousel-button gallery-carousel-button-prev" />
-        <CarouselNext className="gallery-carousel-button gallery-carousel-button-next" />
+        {loop && (
+          <>
+            <CarouselPrevious className="gallery-carousel-button gallery-carousel-button-prev" />
+            <CarouselNext className="gallery-carousel-button gallery-carousel-button-next" />
+          </>
+        )}
       </Carousel>
+      {temLegenda && (
+        <div className="gallery-caption" aria-hidden="true">
+          {itens.map((item, i) => (
+            <p key={i} className={cn(i !== currentSlide && 'invisible')}>{item.titulo}</p>
+          ))}
+        </div>
+      )}
       {slideCount > 1 && (
-        <div className="flex justify-center gap-2 mt-4">
+        <div className="gallery-dots">
           {Array.from({ length: slideCount }).map((_, i) => (
             <button
               key={i}
+              type="button"
               onClick={() => api?.scrollTo(i)}
-              className={cn(
-                "w-2 h-2 rounded-full transition-all",
-                i === currentSlide ? "bg-primary w-6" : "bg-secondary hover:bg-primary/50"
-              )}
+              className="group flex h-6 w-6 items-center justify-center"
               aria-label={`Ir para slide ${i + 1}`}
-              aria-pressed={i === currentSlide}
-            />
+              aria-current={i === currentSlide ? 'true' : undefined}
+            >
+              <span className={cn(
+                'h-2 rounded-full transition-all',
+                i === currentSlide ? 'w-6 bg-primary' : 'w-2 bg-secondary group-hover:bg-primary/50'
+              )} />
+            </button>
           ))}
         </div>
       )}

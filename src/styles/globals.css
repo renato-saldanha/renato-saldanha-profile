@@ -285,11 +285,129 @@
   .email-highlight:hover {
     background: linear-gradient(135deg, hsl(var(--primary) / 0.25), hsl(var(--accent) / 0.25));
     border-color: hsl(var(--primary));
-    box-shadow: 
+    box-shadow:
       0 0 30px hsl(var(--primary) / 0.5),
       0 0 60px hsl(var(--primary) / 0.2),
       0 4px 12px hsl(var(--background) / 0.5);
     transform: translateY(-2px);
+  }
+
+  /* ---------- Galeria (GaleriaFotos) ----------
+     Antes ficava num plugin do tailwind.config.js, onde chaves `@media` repetidas no
+     objeto JS se sobrescreviam (só a última valia) e theme('spacing.2.5') virava "m".
+     Em CSS puro, media queries podem se repetir sem perder regra. */
+  .gallery-container {
+    @apply relative flex w-full flex-col;
+  }
+
+  .gallery-carousel {
+    @apply relative mx-auto flex w-full max-w-[1000px] flex-col;
+  }
+
+  /* Viewport e trilho do Embla em coluna, para repassar a altura disponível até a moldura */
+  .gallery-viewport {
+    @apply flex flex-col;
+  }
+
+  .gallery-panel {
+    @apply flex min-h-0 w-full flex-initial flex-col items-center gap-4;
+  }
+
+  /* Moldura de proporção fixa: o tamanho não depende da imagem nem do carregamento,
+     então nada se mexe ao trocar de slide. A imagem (fill) fica contida dentro dela. */
+  .gallery-image-container {
+    @apply relative w-full overflow-hidden rounded-lg bg-secondary/30;
+    aspect-ratio: 16 / 10;
+  }
+
+  .gallery-image {
+    @apply object-contain;
+  }
+
+  .gallery-zoom-button {
+    @apply absolute inset-0 block h-full w-full cursor-zoom-in transition-opacity hover:opacity-90;
+  }
+
+  /* O anel de foco padrão fica fora do botão e seria cortado pelo overflow da moldura */
+  .gallery-zoom-button:focus-visible {
+    @apply ring-inset ring-offset-0;
+  }
+
+  /* Legendas empilhadas na mesma célula do grid: a altura é a da maior legenda,
+     então os dots não sobem nem descem conforme o tamanho do texto. */
+  .gallery-caption {
+    @apply mt-3 grid text-center text-sm text-muted-foreground;
+  }
+
+  .gallery-caption > p {
+    @apply m-0 px-2;
+    grid-area: 1 / 1;
+  }
+
+  .gallery-dots {
+    @apply mt-2 flex justify-center gap-1;
+  }
+
+  /* No modal: a galeria ocupa a altura disponível e a moldura encolhe para caber
+     (sem scroll interno). Quando sobra espaço, as margens auto centralizam o grupo. */
+  .modal-gallery-container .gallery-container {
+    @apply min-h-0 flex-auto;
+  }
+
+  .modal-gallery-container .gallery-carousel,
+  .modal-gallery-container .gallery-viewport,
+  .modal-gallery-container .gallery-track {
+    @apply min-h-0 flex-initial;
+  }
+
+  .modal-gallery-container .gallery-carousel {
+    margin-top: auto;
+  }
+
+  .modal-gallery-container .gallery-container > :last-child {
+    margin-bottom: auto;
+  }
+
+  .modal-gallery-container .gallery-image-container {
+    @apply min-h-[8rem] flex-initial;
+  }
+
+  /* Variante "sobre": foto e parágrafo no mesmo slide */
+  .gallery-about-text {
+    @apply order-2 w-full px-2.5 text-justify text-xs leading-snug;
+  }
+
+  .gallery-about-variant .gallery-image-container {
+    @apply bg-transparent;
+    aspect-ratio: 4 / 3;
+  }
+
+  .gallery-about-variant .gallery-image {
+    @apply object-cover;
+  }
+
+  @media (min-width: 769px) {
+    .gallery-about-variant .gallery-panel {
+      @apply gap-5 p-2.5;
+    }
+
+    .gallery-about-variant .gallery-image-container {
+      @apply min-w-[300px] max-w-[400px];
+    }
+
+    .gallery-about-variant .gallery-about-text {
+      @apply px-0 py-2.5 text-sm;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .gallery-about-variant .gallery-image-container {
+      @apply min-w-[350px] max-w-[450px];
+    }
+
+    .gallery-about-variant .gallery-about-text {
+      @apply text-base;
+    }
   }
 }
 
@@ -448,7 +566,7 @@
   .gallery-carousel-button:hover:not(:disabled) {
     background: hsl(var(--card) / 0.9) !important;
     border-color: hsl(var(--primary)) !important;
-    transform: scale(1.1) translateY(-50%) !important;
+    transform: translateY(-50%) scale(1.1) !important;
     box-shadow: 0 0 30px hsl(var(--primary) / 0.4),
                 0 0 60px hsl(var(--primary) / 0.2),
                 0 8px 32px hsl(var(--background) / 0.6),
@@ -456,7 +574,7 @@
   }
 
   .gallery-carousel-button:active:not(:disabled) {
-    transform: scale(1.05) translateY(-50%) !important;
+    transform: translateY(-50%) scale(1.05) !important;
   }
 
   .gallery-carousel-button:disabled {
